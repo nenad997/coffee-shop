@@ -3,29 +3,60 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import HomeScreen from "./screens/HomeScreen";
-import CartScreen from "./screens/CartScreen";
-import FavoritesScreen from "./screens/FavoritesScreen";
-import CoffeeDetailsScreen from "./screens/CoffeeDetails";
-import AuthScreen from "./screens/AuthScreen";
+import HomeScreen from "./src/screens/HomeScreen";
+import CartScreen from "./src/screens/CartScreen";
+import FavoritesScreen from "./src/screens/FavoritesScreen";
+import CoffeeDetailsScreen from "./src/screens/CoffeeDetails";
+import AuthScreen from "./src/screens/AuthScreen";
+import Icon from "./src/components/ui/Icon";
 
 const Stack = createNativeStackNavigator();
 const Bottomtab = createBottomTabNavigator();
 
 const BottomtabNavigation = () => {
   return (
-    <Bottomtab.Navigator>
-      <Bottomtab.Screen name="Home" component={HomeScreen} />
-      <Bottomtab.Screen name="Cart" component={CartScreen} />
-      <Bottomtab.Screen name="Favorites" component={FavoritesScreen} />
-      <Bottomtab.Screen name="Auth" component={AuthScreen} />
+    <Bottomtab.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+      }}
+    >
+      <Bottomtab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ focused }) => <Icon name="home" isFocused={focused} />,
+        }}
+      />
+      <Bottomtab.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{
+          tabBarIcon: ({ focused }) => <Icon name="cart" isFocused={focused} />,
+        }}
+      />
+      <Bottomtab.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Icon name="favorite" isFocused={focused} />
+          ),
+        }}
+      />
+      <Bottomtab.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={{
+          tabBarIcon: ({ focused }) => <Icon name="auth" isFocused={focused} />,
+        }}
+      />
     </Bottomtab.Navigator>
   );
 };
 
 const Navigation = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="BottomTabs">
       <Stack.Screen
         name="BottomTabs"
         component={BottomtabNavigation}
@@ -33,9 +64,13 @@ const Navigation = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="CoffeeDetails" component={CoffeeDetailsScreen} options={{
-        title: "Loading..."
-      }} />
+      <Stack.Screen
+        name="CoffeeDetails"
+        component={CoffeeDetailsScreen}
+        options={{
+          title: "Loading...",
+        }}
+      />
     </Stack.Navigator>
   );
 };
