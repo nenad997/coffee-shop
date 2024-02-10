@@ -1,9 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import { Text, View, StyleSheet, TextInput } from "react-native";
 
 import Button from "../components/ui/Button";
+import { ScreenParamList } from "../util/types";
 
-const HomeScreen = ({ navigation }: any) => {
+const HomeScreen: FC<ScreenParamList> = () => {
   return (
     <View style={styles.screenContainer}>
       <View style={styles.header}>

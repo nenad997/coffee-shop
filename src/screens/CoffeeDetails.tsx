@@ -1,7 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { Text, View, StyleSheet } from "react-native";
 
-const CoffeeDetailsScreen = () => {
+import { ScreenParamList } from "../util/types";
+
+const CoffeeDetailsScreen: FC<ScreenParamList> = () => {
   return (
     <View style={styles.screenContainer}>
       <Text>Coffee details Screen!</Text>

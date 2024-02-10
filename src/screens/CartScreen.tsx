@@ -1,7 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { Text, View, StyleSheet } from "react-native";
 
-const CartScreen = () => {
+import { ScreenParamList } from "../util/types";
+
+const CartScreen: FC<ScreenParamList> = () => {
   return (
     <View style={styles.screenContainer}>
       <Text>Cart Screen!</Text>

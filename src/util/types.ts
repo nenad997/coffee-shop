@@ -1,3 +1,5 @@
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 type IconNames = "home" | "cart" | "favorite" | "auth";
 
 export interface IconProps {
@@ -7,3 +9,6 @@ export interface IconProps {
   isFocused?: boolean;
   tintColor?: string;
 }
+
+export type ScreenParamList = NativeStackScreenProps<any, any>;
+
