@@ -1,64 +1,56 @@
 import React, { FC } from "react";
-import { View, Image, Text } from "react-native";
+import { View, Image, Text, StyleSheet } from "react-native";
 
-interface IconProps {
-  width?: number;
-  height?: number;
-  name?: string;
-  isFocused?: boolean;
-  tintColor?: string;
-}
+import { IconProps } from "../../util/types";
 
-const Icon: FC<IconProps> = ({
-  width = 30,
-  height = 30,
-  name,
-  isFocused
-}) => {
-  if (!name) {
+const iconPaths: any = {
+  home: require("../../assets/icon-img/home.png"),
+  cart: require("../../assets/icon-img/cart.png"),
+  favorite: require("../../assets/icon-img/favorite.png"),
+  auth: require("../../assets/icon-img/auth.png"),
+};
+
+const Icon: FC<IconProps> = ({ width = 30, height = 30, name, isFocused }) => {
+  const imagePath = iconPaths[name!];
+
+  if (!imagePath) {
     return (
-      <View>
-        <Text>X</Text>
+      <View style={styles.imageContainer}>
+        <Text style={styles.text}>{"?"}</Text>
       </View>
     );
   }
 
-  let imagePath;
-
-  switch (name) {
-    case "home": {
-      imagePath = require("../../assets/icon-img/home.png");
-      break;
-    }
-    case "cart": {
-      imagePath = require("../../assets/icon-img/cart.png");
-      break;
-    }
-    case "favorite": {
-      imagePath = require("../../assets/icon-img/favorite.png");
-      break;
-    }
-    case "auth": {
-      imagePath = require("../../assets/icon-img/auth.png");
-      break;
-    }
-    default: {
-      imagePath = require("../../assets/icon-img/invalid.png");
-      break;
-    }
-  }
-
   let tintColor = "gray";
 
-  if(isFocused) {
-    tintColor = "black"
+  if (isFocused) {
+    tintColor = "black";
   }
 
   return (
-    <View>
-      <Image style={{ width, height, tintColor }} source={imagePath} />
+    <View style={styles.imageContainer}>
+      {imagePath && (
+        <Image
+          style={[styles.image, { width, height, tintColor }]}
+          source={imagePath}
+        />
+      )}
     </View>
   );
 };
 
 export default Icon;
+
+const styles = StyleSheet.create({
+  imageContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 28,
+  },
+});
