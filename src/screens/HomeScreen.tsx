@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Text, View, StyleSheet, TextInput } from "react-native";
 
-import Button from "../components/ui/Button";
+import SearchForm from "../components/SearchForm";
 import { ScreenParamList } from "../util/types";
 
 const HomeScreen: FC<ScreenParamList> = () => {
@@ -11,10 +11,7 @@ const HomeScreen: FC<ScreenParamList> = () => {
         <Text style={styles.text}>Find the best</Text>
         <Text style={styles.text}>coffee for you</Text>
       </View>
-      <View style={styles.searchForm}>
-        <Button name="search" />
-        <TextInput style={styles.input} placeholder="Find you coffee" />
-      </View>
+      <SearchForm />
     </View>
   );
 };
@@ -33,16 +30,4 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 28,
   },
-  input: {
-    flex: 1,
-    backgroundColor: "#A47D5B",
-    margin: 10,
-    borderRadius: 20,
-  },
-  searchForm: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 15
-  }
 });
