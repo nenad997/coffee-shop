@@ -18,6 +18,10 @@ const BottomtabNavigation = () => {
     <Bottomtab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
+        headerShown: false,
+        tabBarActiveBackgroundColor: "#9D5C1B",
+        tabBarInactiveBackgroundColor: "#9D5C1B",
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Bottomtab.Screen

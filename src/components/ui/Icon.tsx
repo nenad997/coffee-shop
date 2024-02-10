@@ -8,6 +8,7 @@ const iconPaths: any = {
   cart: require("../../assets/icon-img/cart.png"),
   favorite: require("../../assets/icon-img/favorite.png"),
   auth: require("../../assets/icon-img/auth.png"),
+  search: require("../../assets/icon-img/search.png"),
 };
 
 const Icon: FC<IconProps> = ({ width = 30, height = 30, name, isFocused }) => {
