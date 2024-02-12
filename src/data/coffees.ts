@@ -1,4 +1,4 @@
-import { Coffee } from "../util/types";
+import { Coffee, CoffeeType } from "../util/types";
 
 export const coffees: Coffee[] = [
   {
@@ -30,5 +30,24 @@ export const coffees: Coffee[] = [
     addition: "With whipped cream",
     price: 2.14,
     rating: 4.1,
+  },
+];
+
+export const CoffeeTypes: CoffeeType[] = [
+  {
+    id: "t1",
+    coffeeType: "Cappuccino",
+  },
+  {
+    id: "t2",
+    coffeeType: "Espresso",
+  },
+  {
+    id: "t3",
+    coffeeType: "Americano",
+  },
+  {
+    id: "t4",
+    coffeeType: "Latte",
   },
 ];

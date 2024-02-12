@@ -42,3 +42,8 @@ export type CoffeeListProps = {
 export type CoffeeProps = {
   item: Coffee;
 };
+
+export type CoffeeType = {
+  id: string;
+  coffeeType: string;
+};

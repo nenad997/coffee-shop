@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, ScrollView } from "react-native";
 
 import { ScreenParamList } from "../util/types";
 import SearchForm from "../components/SearchForm";
+import FilterForm from "../components/Coffee/FilterForm";
 import CoffeeList from "../components/Coffee/CoffeeList";
 import { Colors } from "../constants/colors";
 
@@ -17,6 +18,7 @@ const HomeScreen: FC<ScreenParamList> = () => {
         <Text style={styles.text}>coffee for you</Text>
       </View>
       <SearchForm />
+      <FilterForm />
       <CoffeeList coffees={coffees} />
     </ScrollView>
   );
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.screenBg,
   },
   header: {
-    marginVertical: 45,
+    marginVertical: 25,
     marginLeft: 20,
   },
   text: {
