@@ -36,18 +36,18 @@ export const coffees: Coffee[] = [
 export const CoffeeTypes: CoffeeType[] = [
   {
     id: "t1",
-    coffeeType: "Cappuccino",
+    title: "Cappuccino",
   },
   {
     id: "t2",
-    coffeeType: "Espresso",
+    title: "Espresso",
   },
   {
     id: "t3",
-    coffeeType: "Americano",
+    title: "Americano",
   },
   {
     id: "t4",
-    coffeeType: "Latte",
+    title: "Latte",
   },
 ];

@@ -5,7 +5,13 @@ const uiSlice = createSlice({
   initialState: {
     isLoading: false,
   },
-  reducers: {},
+  reducers: {
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+  },
 });
 
 export default uiSlice.reducer;
+
+export const uiSliceAction = uiSlice.actions;

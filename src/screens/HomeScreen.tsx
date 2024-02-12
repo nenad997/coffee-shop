@@ -1,15 +1,21 @@
-import React, { FC } from "react";
-import { useSelector } from "react-redux";
+import React, { FC, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 
 import { ScreenParamList } from "../util/types";
 import SearchForm from "../components/SearchForm";
-import FilterForm from "../components/Coffee/FilterForm";
 import CoffeeList from "../components/Coffee/CoffeeList";
+import LoadingIndicator from "../components/ui/LoadingIndicator";
 import { Colors } from "../constants/colors";
+import { getCoffees } from "../store/actions/coffee-actions";
 
 const HomeScreen: FC<ScreenParamList> = () => {
-  const coffees = useSelector((state: any) => state.coffee.coffees);
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state: any) => state.ui.isLoading);
+
+  useEffect(() => {
+    dispatch<any>(getCoffees());
+  }, []);
 
   return (
     <ScrollView style={styles.screenContainer}>
@@ -18,8 +24,7 @@ const HomeScreen: FC<ScreenParamList> = () => {
         <Text style={styles.text}>coffee for you</Text>
       </View>
       <SearchForm />
-      <FilterForm />
-      <CoffeeList coffees={coffees} />
+      {isLoading ? <LoadingIndicator /> : <CoffeeList />}
     </ScrollView>
   );
 };

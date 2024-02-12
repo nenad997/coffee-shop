@@ -1,14 +1,18 @@
 import React, { FC, useState } from "react";
+import { useDispatch } from "react-redux";
 import { FlatList, StyleSheet, Text, Pressable } from "react-native";
 
 import { CoffeeTypes } from "../../data/coffees";
 import { Colors } from "../../constants/colors";
+import { coffeeSliceActions } from "../../store/slices/coffee-slice";
 
 const FilterForm: FC = () => {
+  const dispatch = useDispatch();
   const [activeID, setActiveID] = useState<string>("t1");
 
   const pressItemHandler = (id: string, filter: string) => {
     setActiveID(id);
+    dispatch(coffeeSliceActions.updateFilter(filter));
   };
 
   return (
@@ -20,12 +24,12 @@ const FilterForm: FC = () => {
       renderItem={({ item }) => (
         <Pressable
           style={({ pressed }) => pressed && styles.pressed}
-          onPress={pressItemHandler.bind(this, item.id, item.coffeeType)}
+          onPress={pressItemHandler.bind(this, item.id, item.title)}
         >
           <Text
             style={[styles.text, activeID === item.id && styles.activeItem]}
           >
-            {item.coffeeType}
+            {item.title}
           </Text>
         </Pressable>
       )}

@@ -45,5 +45,9 @@ export type CoffeeProps = {
 
 export type CoffeeType = {
   id: string;
-  coffeeType: string;
+  title: string;
+};
+
+export type FilterFormProps = {
+  onFilterCoffee: (filter: string) => void;
 };

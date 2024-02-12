@@ -1,20 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { coffees } from "../../data/coffees";
-import { Coffee } from "../../util/types";
-
 const initialState = {
-  coffees: coffees,
+  coffees: [],
+  filter: "Cappuccino",
 };
 
 const coffeeSlice = createSlice({
   name: "coffee",
   initialState,
   reducers: {
-    searchCoffee: (state, action) => {
-      state.coffees = state.coffees.filter((coffee: Coffee) => {
-        return coffee.title === action.payload;
-      });
+    replaceState: (state, action) => {
+      state.coffees = action.payload;
+    },
+    updateFilter: (state, action) => {
+      state.filter = action.payload;
     },
   },
 });
