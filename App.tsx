@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -9,6 +10,8 @@ import FavoritesScreen from "./src/screens/FavoritesScreen";
 import CoffeeDetailsScreen from "./src/screens/CoffeeDetails";
 import AuthScreen from "./src/screens/AuthScreen";
 import Icon from "./src/components/ui/Icon";
+import store from "./src/store/index";
+import { Colors } from "./src/constants/colors";
 
 const Stack = createNativeStackNavigator();
 const Bottomtab = createBottomTabNavigator();
@@ -19,8 +22,8 @@ const BottomtabNavigation = () => {
       screenOptions={{
         tabBarShowLabel: false,
         headerShown: false,
-        tabBarActiveBackgroundColor: "#9D5C1B",
-        tabBarInactiveBackgroundColor: "#9D5C1B",
+        tabBarActiveBackgroundColor: Colors.tabBg,
+        tabBarInactiveBackgroundColor: Colors.tabBg,
         tabBarHideOnKeyboard: true,
       }}
     >
@@ -73,6 +76,14 @@ const Navigation = () => {
         component={CoffeeDetailsScreen}
         options={{
           title: "Loading...",
+          headerRight: () => (
+            <Icon
+              name="star"
+              tintColor={Colors.orangePrimary}
+              width={25}
+              height={25}
+            />
+          ),
         }}
       />
     </Stack.Navigator>
@@ -81,9 +92,11 @@ const Navigation = () => {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Navigation />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Navigation />
+      </NavigationContainer>
+    </Provider>
   );
 };
 

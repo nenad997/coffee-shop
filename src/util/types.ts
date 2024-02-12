@@ -5,10 +5,40 @@ type IconNames = "home" | "cart" | "favorite" | "auth";
 export interface IconProps {
   width?: number;
   height?: number;
-  name: IconNames;
+  name: IconNames | string;
   isFocused?: boolean;
   tintColor?: string;
 }
 
-export type ScreenParamList = NativeStackScreenProps<any, any>;
+type ScreenName = {
+  Home: any;
+  Cart: any;
+  Favorites: any;
+  Auth: any;
+  CoffeeDetails: any;
+};
 
+export type ScreenParamList = NativeStackScreenProps<ScreenName, any>;
+
+export type CustomButtonProps = {
+  name: string;
+  onPress: () => void;
+};
+
+export type Coffee = {
+  id: string;
+  coffeeType: "Americano" | "Espresso" | "Latte" | "Flat Wheat";
+  imageUri: string;
+  rating: number;
+  title: string;
+  addition: string;
+  price: number;
+};
+
+export type CoffeeListProps = {
+  coffees: Coffee[];
+};
+
+export type CoffeeProps = {
+  item: Coffee;
+};

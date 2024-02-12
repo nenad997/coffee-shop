@@ -1,18 +1,24 @@
 import React, { FC } from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { useSelector } from "react-redux";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 
-import SearchForm from "../components/SearchForm";
 import { ScreenParamList } from "../util/types";
+import SearchForm from "../components/SearchForm";
+import CoffeeList from "../components/Coffee/CoffeeList";
+import { Colors } from "../constants/colors";
 
 const HomeScreen: FC<ScreenParamList> = () => {
+  const coffees = useSelector((state: any) => state.coffee.coffees);
+
   return (
-    <View style={styles.screenContainer}>
+    <ScrollView style={styles.screenContainer}>
       <View style={styles.header}>
         <Text style={styles.text}>Find the best</Text>
         <Text style={styles.text}>coffee for you</Text>
       </View>
       <SearchForm />
-    </View>
+      <CoffeeList coffees={coffees} />
+    </ScrollView>
   );
 };
 
@@ -21,13 +27,14 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: "#140C05",
+    backgroundColor: Colors.screenBg,
   },
   header: {
-    margin: 45,
+    marginVertical: 45,
+    marginLeft: 20,
   },
   text: {
     color: "white",
-    fontSize: 28,
+    fontSize: 35,
   },
 });

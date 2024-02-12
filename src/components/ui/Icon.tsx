@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 
 import { IconProps } from "../../util/types";
+import { Colors } from "../../constants/colors";
 
 const iconPaths: any = {
   home: require("../../assets/icon-img/home.png"),
@@ -9,9 +10,17 @@ const iconPaths: any = {
   favorite: require("../../assets/icon-img/favorite.png"),
   auth: require("../../assets/icon-img/auth.png"),
   search: require("../../assets/icon-img/search.png"),
+  plus: require("../../assets/icon-img/plus.png"),
+  star: require("../../assets/icon-img/star.png"),
 };
 
-const Icon: FC<IconProps> = ({ width = 30, height = 30, name, isFocused }) => {
+const Icon: FC<IconProps> = ({
+  width = 30,
+  height = 30,
+  name,
+  isFocused,
+  tintColor = "white",
+}) => {
   const imagePath = iconPaths[name!];
 
   if (!imagePath) {
@@ -22,20 +31,18 @@ const Icon: FC<IconProps> = ({ width = 30, height = 30, name, isFocused }) => {
     );
   }
 
-  let tintColor = "gray";
+  let iconTintColor = tintColor;
 
   if (isFocused) {
-    tintColor = "black";
+    iconTintColor = Colors.tabItem;
   }
 
   return (
     <View style={styles.imageContainer}>
-      {imagePath && (
-        <Image
-          style={[styles.image, { width, height, tintColor }]}
-          source={imagePath}
-        />
-      )}
+      <Image
+        style={[styles.image, { width, height, tintColor: iconTintColor }]}
+        source={imagePath}
+      />
     </View>
   );
 };

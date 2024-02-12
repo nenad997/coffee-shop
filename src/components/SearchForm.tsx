@@ -1,13 +1,40 @@
-import React, { FC } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { TextInput, View, StyleSheet, Alert } from "react-native";
 
+import { Colors } from "../constants/colors";
 import Button from "./ui/Button";
+import { coffeeSliceActions } from "../store/slices/coffee-slice";
 
-const SearchForm: FC = () => {
+const SearchForm = () => {
+  const [enteredText, setEnteredText] = useState("");
+  const dispatch = useDispatch();
+
+  const changeTextHandler = (text: string) => {
+    setEnteredText(text);
+  };
+
+  const filterCoffeesHandler = () => {
+    if (!enteredText) {
+      Alert.alert("Invalid input", "Please enter a coffee!");
+      return;
+    }
+
+    dispatch(coffeeSliceActions.searchCoffee(enteredText));
+  };
+
   return (
-    <View style={styles.searchForm}>
-      <Button name="search" />
-      <TextInput style={styles.input} placeholder="Find you coffee" />
+    <View style={styles.form}>
+      <View style={styles.searchButton}>
+        <Button name="search" onPress={filterCoffeesHandler} />
+      </View>
+      <TextInput
+        placeholderTextColor="gray"
+        style={styles.input}
+        placeholder="Find Your Coffee..."
+        onChangeText={changeTextHandler}
+        value={enteredText}
+      />
     </View>
   );
 };
@@ -15,16 +42,24 @@ const SearchForm: FC = () => {
 export default SearchForm;
 
 const styles = StyleSheet.create({
-  searchForm: {
+  form: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 15,
+    marginHorizontal: 20,
+    marginTop: 15,
   },
   input: {
     flex: 1,
-    backgroundColor: "#A47D5B",
-    margin: 10,
-    borderRadius: 20,
+    backgroundColor: Colors.inputBg,
+    color: "white",
+    borderRadius: 10,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    padding: 10,
+  },
+  searchButton: {
+    backgroundColor: Colors.inputBg,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    padding: 10,
   },
 });
