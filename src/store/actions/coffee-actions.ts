@@ -26,11 +26,7 @@ export function getCoffees() {
       });
     }
 
-    dispatch(
-      coffeeSliceActions.replaceState(
-        coffees
-      ),
-    );
+    dispatch(coffeeSliceActions.replaceState(coffees));
     dispatch(uiSliceAction.setIsLoading(false));
   };
 }

@@ -9,7 +9,7 @@ import { Coffee } from "../../util/types";
 const CoffeeList: FC = () => {
   const { coffees, filter } = useSelector((state: any) => state.coffee);
 
-  const filteredCoffees = coffees.filter(
+  const shownCoffees = coffees.filter(
     (coffee: Coffee) => coffee.title === filter,
   );
 
@@ -17,13 +17,13 @@ const CoffeeList: FC = () => {
     <FlatList
       style={styles.list}
       horizontal={true}
-      data={filteredCoffees}
+      data={shownCoffees}
       keyExtractor={item => item.id}
       renderItem={({ item }) => <CoffeeItem item={item} />}
     />
   );
 
-  if (!filteredCoffees || filteredCoffees.length === 0) {
+  if (!shownCoffees || shownCoffees.length === 0) {
     listContent = (
       <View style={styles.container}>
         <Text style={styles.fallbackText}>No {filter} coffees</Text>
