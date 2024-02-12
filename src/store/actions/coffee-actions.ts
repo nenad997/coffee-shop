@@ -4,29 +4,43 @@ import { coffeeSliceActions } from "../slices/coffee-slice";
 import { uiSliceAction } from "../slices/ui-slice";
 import { Coffee } from "../../util/types";
 
+const FIREBASE_URL =
+  "https://coffee-shop-app-366b1-default-rtdb.europe-west1.firebasedatabaseapp";
+
 export function getCoffees() {
   return async (dispatch: Dispatch) => {
-    dispatch(uiSliceAction.setIsLoading(true));
-    const response = await fetch(
-      "https://coffee-shop-app-366b1-default-rtdb.europe-west1.firebasedatabase.app/coffee.json",
-    );
-    const responseData = await response.json();
+    try {
+      dispatch(uiSliceAction.setIsLoading(true));
+      const response = await fetch(`${FIREBASE_URL}/coffee.json`);
 
-    const coffees: Coffee[] = [];
+      if (!response.ok) {
+        throw new Error("Failed to fetch coffees");
+      }
 
-    for (let key in responseData) {
-      coffees.push({
-        id: key,
-        imageUri: responseData[key].imageUri,
-        addition: responseData[key].addition,
-        coffeeType: responseData[key].coffeeType,
-        price: responseData[key].price,
-        rating: responseData[key].rating,
-        title: responseData[key].title,
-      });
+      const responseData = await response.json();
+
+      const coffees: Coffee[] = [];
+
+      for (let key in responseData) {
+        coffees.push({
+          id: key,
+          imageUri: responseData[key].imageUri,
+          addition: responseData[key].addition,
+          coffeeType: responseData[key].coffeeType,
+          price: responseData[key].price,
+          rating: responseData[key].rating,
+          title: responseData[key].title,
+        });
+      }
+
+      dispatch(coffeeSliceActions.replaceState(coffees));
+    } catch (error) {
+      dispatch(
+        uiSliceAction.setError({
+          message: "Failed to fetch coffees",
+        }),
+      );
     }
-
-    dispatch(coffeeSliceActions.replaceState(coffees));
     dispatch(uiSliceAction.setIsLoading(false));
   };
 }

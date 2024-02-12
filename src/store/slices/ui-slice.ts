@@ -4,10 +4,14 @@ const uiSlice = createSlice({
   name: "ui",
   initialState: {
     isLoading: false,
+    error: null,
   },
   reducers: {
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
     },
   },
 });
