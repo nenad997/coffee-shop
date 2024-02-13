@@ -14,16 +14,23 @@ type ScreenName = {
   Home: any;
   Cart: any;
   Favorites: any;
-  Auth: any;
+  Profile: any;
   CoffeeDetails: any;
+};
+
+type AuthScreenName = {
+  Login: any;
+  Signup: any;
 };
 
 export type ScreenParamList = NativeStackScreenProps<ScreenName, any>;
 
+export type AuthScreenParamList = NativeStackScreenProps<AuthScreenName, any>;
+
 export type CustomButtonProps = {
   name: string;
   onPress: () => void;
-  config?: any
+  config?: any;
 };
 
 export type Coffee = {

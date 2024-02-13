@@ -1,7 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const LoginScreen = () => {
+import { AuthScreenParamList } from "../util/types";
+
+const LoginScreen: FC<AuthScreenParamList> = () => {
   return (
     <View>
       <Text>Login screen!</Text>

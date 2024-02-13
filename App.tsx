@@ -99,17 +99,17 @@ const AuthenticatedNavigation = () => {
 
 const AppRoot = () => {
   return (
-    <Provider store={store}>
+    <NavigationContainer>
       <AuthenticatedNavigation />
-    </Provider>
+    </NavigationContainer>
   );
 };
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <Provider store={store}>
       <AppRoot />
-    </NavigationContainer>
+    </Provider>
   );
 };
 
