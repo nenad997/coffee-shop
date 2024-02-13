@@ -30,6 +30,7 @@ export function getCoffees() {
           price: responseData[key].price,
           rating: responseData[key].rating,
           title: responseData[key].title,
+          isFavorite: responseData[key].isFavorite,
         });
       }
 

@@ -41,6 +41,7 @@ export type Coffee = {
   title: string;
   addition: string;
   price: number;
+  isFavorite: boolean;
 };
 
 export type CoffeeListProps = {

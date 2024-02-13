@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useSelector } from "react-redux";
 import { Text, View, StyleSheet } from "react-native";
 
 import { Coffee, ScreenParamList } from "../util/types";
@@ -7,9 +8,13 @@ import { Colors } from "../constants/colors";
 import Button from "../components/ui/Button";
 
 const FavoritesScreen: FC<ScreenParamList> = ({ navigation }) => {
-  const coffees: Coffee[] = [];
+  const coffees = useSelector((state: any) => state.coffee.coffees);
 
-  if (!coffees || coffees.length === 0) {
+  const shownCoffees = coffees.filter(
+    (coffee: Coffee) => coffee.isFavorite === true,
+  );
+
+  if (!shownCoffees || shownCoffees.length === 0) {
     return (
       <View style={styles.fallbackContainer}>
         <Text style={styles.fallbackText}>
@@ -27,7 +32,7 @@ const FavoritesScreen: FC<ScreenParamList> = ({ navigation }) => {
 
   return (
     <View style={styles.screen}>
-      <FavoritesList coffees={coffees} />
+      <FavoritesList coffees={shownCoffees} />
     </View>
   );
 };
@@ -36,6 +41,7 @@ export default FavoritesScreen;
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
     backgroundColor: Colors.screenBg,
   },
   fallbackContainer: {

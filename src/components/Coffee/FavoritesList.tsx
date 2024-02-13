@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   FlatList,
   Text,
@@ -7,16 +7,27 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import PressableIcon from "../ui/PressableIcon";
 import { Coffee } from "../../util/types";
+import { coffeeSliceActions } from "../../store/slices/coffee-slice";
 
 const FavoritesList: FC<{
   coffees: Coffee[];
 }> = ({ coffees }) => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation<any>();
+
+  const unfavoriteCoffeeHandler = (id: string) => {
+    dispatch(coffeeSliceActions.toggleFavorite(id));
+    if (coffees.length === 1) {
+      navigation.navigate("Home");
+    }
+  };
+
   return (
     <FlatList
-      style={styles.list}
       data={coffees}
       keyExtractor={item => item.id}
       renderItem={({ item }) => {
@@ -32,7 +43,7 @@ const FavoritesList: FC<{
               </Text>
               <PressableIcon
                 name="delete"
-                onPress={() => {}}
+                onPress={unfavoriteCoffeeHandler.bind(null, item.id)}
                 config={{
                   tintColor: "red",
                 }}
@@ -48,9 +59,6 @@ const FavoritesList: FC<{
 export default FavoritesList;
 
 const styles = StyleSheet.create({
-  list: {
-    // margin: 10,
-  },
   item: {
     marginVertical: 10,
   },

@@ -1,4 +1,5 @@
-import React, { FC, useLayoutEffect, useState } from "react";
+import React, { FC, useLayoutEffect, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import {
   Text,
   View,
@@ -6,18 +7,22 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 import { ScreenParamList } from "../util/types";
 import { Colors } from "../constants/colors";
 import Icon from "../components/ui/Icon";
 import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
+import { coffeeSliceActions } from "../store/slices/coffee-slice";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
-  const toggleIsFavorite = () => {
-    setIsFavorite((curFavorite: boolean) => !curFavorite);
+  const toggleIsFavorite = (id: string) => {
+    dispatch(coffeeSliceActions.toggleFavorite(id));
+    navigation.navigate("Favorites");
   };
 
   useLayoutEffect(() => {
@@ -33,20 +38,24 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   }, [route, navigation]);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <PressableIcon
-          name="star"
-          config={{
-            width: 20,
-            height: 20,
-            tintColor: isFavorite ? Colors.orangePrimary : "white",
-          }}
-          onPress={toggleIsFavorite}
-        />
-      ),
-    });
-  }, [navigation, isFavorite, toggleIsFavorite]);
+    if (route.params && isFocused) {
+      navigation.setOptions({
+        headerRight: () => (
+          <PressableIcon
+            name="star"
+            config={{
+              width: 20,
+              height: 20,
+              tintColor: route.params!.item.isFavorite
+                ? Colors.orangePrimary
+                : "white",
+            }}
+            onPress={toggleIsFavorite.bind(this, route.params!.item.id)}
+          />
+        ),
+      });
+    }
+  }, [navigation, route, toggleIsFavorite, isFocused]);
 
   return (
     <ScrollView style={styles.screenContainer}>
@@ -182,7 +191,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.orangePrimary,
     flex: 2,
-    borderRadius: 25
+    borderRadius: 25,
   },
   dollar: {
     color: Colors.orangePrimary,
