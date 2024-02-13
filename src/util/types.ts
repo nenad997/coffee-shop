@@ -44,7 +44,7 @@ export type Coffee = {
 };
 
 export type CoffeeListProps = {
-  coffees: Coffee[];
+  isHorizontal: boolean;
 };
 
 export type CoffeeProps = {

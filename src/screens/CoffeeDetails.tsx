@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.orangePrimary,
     flex: 2,
+    borderRadius: 25
   },
   dollar: {
     color: Colors.orangePrimary,

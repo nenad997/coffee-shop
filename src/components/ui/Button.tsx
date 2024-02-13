@@ -24,7 +24,6 @@ export default Button;
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
   },
