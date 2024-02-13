@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useCallback } from "react";
+import React, { FC, useLayoutEffect, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   Text,
@@ -14,14 +14,14 @@ import { Colors } from "../constants/colors";
 import Icon from "../components/ui/Icon";
 import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
-import { coffeeSliceActions } from "../store/slices/coffee-slice";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
   const toggleIsFavorite = (id: string) => {
-    dispatch(coffeeSliceActions.toggleFavorite(id));
+    // dispatch(coffeeSliceActions.toggleFavorite(id));
+    // dispatch<any>(toggleFavoriteCoffeAction(id));
     navigation.navigate("Favorites");
   };
 

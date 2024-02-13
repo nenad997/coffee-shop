@@ -3,15 +3,15 @@ import { Dispatch } from "redux";
 import { coffeeSliceActions } from "../slices/coffee-slice";
 import { uiSliceAction } from "../slices/ui-slice";
 import { Coffee } from "../../util/types";
+import { FIREBASE_URL } from "../../../variables";
 
-const FIREBASE_URL =
-  "https://coffee-shop-app-366b1-default-rtdb.europe-west1.firebasedatabase.app";
+const URL = FIREBASE_URL;
 
 export function getCoffees() {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(uiSliceAction.setIsLoading(true));
-      const response = await fetch(`${FIREBASE_URL}/coffee.json`);
+      const response = await fetch(`${URL}/coffee.json`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch coffees");
@@ -45,3 +45,21 @@ export function getCoffees() {
     dispatch(uiSliceAction.setIsLoading(false));
   };
 }
+
+// export function toggleFavoriteCoffeAction(coffeeId: string) {
+//   return async (dispatch: Dispatch) => {
+//     try {
+//       dispatch(uiSliceAction.setIsLoading(true));
+//       const response = await fetch(`${URL}/coffee/${coffeeId}.json`);
+//       const responseData = await response.json();
+
+//       dispatch(uiSliceAction.setIsLoading(false));
+//     } catch (error) {
+//       dispatch(
+//         uiSliceAction.setError({
+//           message: "Failed to update coffee",
+//         }),
+//       );
+//     }
+//   };
+// }
