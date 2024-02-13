@@ -18,20 +18,26 @@ const HomeScreen: FC<ScreenParamList> = () => {
     dispatch<any>(getCoffees());
   }, []);
 
-  if (error && !isLoading) {
-    return <ErrorIndicator message={error.message} />;
-  }
-
-  return (
+  let content = (
     <ScrollView style={styles.screenContainer}>
       <View style={styles.header}>
         <Text style={styles.text}>Find the best</Text>
         <Text style={styles.text}>coffee for you</Text>
       </View>
       <SearchForm />
-      {isLoading && !error ? <LoadingIndicator /> : <CoffeeList />}
+      <CoffeeList />
     </ScrollView>
   );
+
+  if(isLoading && !error) {
+    return <LoadingIndicator />;
+  }
+
+  if (error) {
+    return <ErrorIndicator message={error.message} />;
+  }
+
+  return content;
 };
 
 export default HomeScreen;

@@ -5,7 +5,7 @@ import { uiSliceAction } from "../slices/ui-slice";
 import { Coffee } from "../../util/types";
 
 const FIREBASE_URL =
-  "https://coffee-shop-app-366b1-default-rtdb.europe-west1.firebasedatabaseapp";
+  "https://coffee-shop-app-366b1-default-rtdb.europe-west1.firebasedatabase.app";
 
 export function getCoffees() {
   return async (dispatch: Dispatch) => {

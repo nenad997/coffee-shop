@@ -1,6 +1,8 @@
 import React from "react";
 import { ActivityIndicator, View, StyleSheet } from "react-native";
 
+import { Colors } from "../../constants/colors";
+
 const LoadingIndicator = () => {
   return (
     <View style={styles.container}>
@@ -13,6 +15,9 @@ export default LoadingIndicator;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 150
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.screenBg
   },
 });
