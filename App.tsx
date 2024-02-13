@@ -90,11 +90,15 @@ const AuthenticatedNavigation = () => {
           headerRight: () => (
             <Icon
               name="star"
-              tintColor={Colors.orangePrimary}
+              tintColor="white"
               width={25}
               height={25}
             />
           ),
+          headerStyle: {
+            backgroundColor: Colors.inputBg,
+          },
+          headerTintColor: "white",
         }}
       />
     </Stack.Navigator>

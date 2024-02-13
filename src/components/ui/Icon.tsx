@@ -12,6 +12,7 @@ const iconPaths: any = {
   search: require("../../assets/icon-img/search.png"),
   plus: require("../../assets/icon-img/plus.png"),
   star: require("../../assets/icon-img/star.png"),
+  "coffee-bean": require("../../assets/icon-img/coffee-bean.png"),
 };
 
 const Icon: FC<IconProps> = ({
@@ -24,11 +25,7 @@ const Icon: FC<IconProps> = ({
   const imagePath = iconPaths[name!];
 
   if (!imagePath) {
-    return (
-      <View style={styles.imageContainer}>
-        <Text style={styles.text}>{"?"}</Text>
-      </View>
-    );
+    return <Text style={styles.text}>{"?"}</Text>;
   }
 
   let iconTintColor = tintColor;
@@ -38,22 +35,20 @@ const Icon: FC<IconProps> = ({
   }
 
   return (
-    <View style={styles.imageContainer}>
-      <Image
-        style={[styles.image, { width, height, tintColor: iconTintColor }]}
-        source={imagePath}
-      />
-    </View>
+    <Image
+      style={[styles.image, { width, height, tintColor: iconTintColor }]}
+      source={imagePath}
+    />
   );
 };
 
 export default Icon;
 
 const styles = StyleSheet.create({
-  imageContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  // imageContainer: {
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
   image: {
     justifyContent: "center",
     alignItems: "center",

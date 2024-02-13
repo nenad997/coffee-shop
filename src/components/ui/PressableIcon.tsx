@@ -4,7 +4,7 @@ import { Pressable, StyleSheet } from "react-native";
 import { CustomButtonProps } from "../../util/types";
 import Icon from "./Icon";
 
-const Button: FC<CustomButtonProps> = ({ name, onPress }) => {
+const PressableIcon: FC<CustomButtonProps> = ({ name, onPress }) => {
   return (
     <Pressable
       style={({ pressed }) => pressed && styles.pressed}
@@ -15,7 +15,7 @@ const Button: FC<CustomButtonProps> = ({ name, onPress }) => {
   );
 };
 
-export default Button;
+export default PressableIcon;
 
 const styles = StyleSheet.create({
   pressed: {

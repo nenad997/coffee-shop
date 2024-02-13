@@ -17,10 +17,9 @@ const CoffeeItem: FC<CoffeeProps> = ({ item }) => {
   const navigation = useNavigation<any>();
 
   const pressCoffeeItemHandler = () => {
-    // navigation.navigate("CoffeeDetails", {
-    //   title: item.title,
-    //   addition: item.addition,
-    // });
+    navigation.navigate("CoffeeDetails", {
+      item,
+    });
   };
 
   return (
