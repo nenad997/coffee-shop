@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect } from "react";
+import React, { FC, useLayoutEffect, useState } from "react";
 import {
   Text,
   View,
@@ -10,9 +10,16 @@ import {
 import { ScreenParamList } from "../util/types";
 import { Colors } from "../constants/colors";
 import Icon from "../components/ui/Icon";
+import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const toggleIsFavorite = () => {
+    setIsFavorite((curFavorite: boolean) => !curFavorite);
+  };
+
   useLayoutEffect(() => {
     const timer = setTimeout(() => {
       if (route.params) {
@@ -20,10 +27,26 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
           title: `${route.params.item.title} - ${route.params.item.addition}`,
         });
       }
-    }, 800);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [route, navigation]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <PressableIcon
+          name="star"
+          config={{
+            width: 20,
+            height: 20,
+            tintColor: isFavorite ? Colors.orangePrimary : "white",
+          }}
+          onPress={toggleIsFavorite}
+        />
+      ),
+    });
+  }, [navigation, isFavorite, toggleIsFavorite]);
 
   return (
     <ScrollView style={styles.screenContainer}>

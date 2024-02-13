@@ -87,14 +87,6 @@ const AuthenticatedNavigation = () => {
         component={CoffeeDetailsScreen}
         options={{
           title: "Loading...",
-          headerRight: () => (
-            <Icon
-              name="star"
-              tintColor="white"
-              width={25}
-              height={25}
-            />
-          ),
           headerStyle: {
             backgroundColor: Colors.inputBg,
           },
