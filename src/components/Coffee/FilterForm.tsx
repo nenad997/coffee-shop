@@ -10,7 +10,7 @@ const FilterForm: FC = () => {
   const dispatch = useDispatch();
   const [activeID, setActiveID] = useState<string>("t1");
 
-  const pressItemHandler = (id: string, filter: string) => {
+  const pressNavItemHandler = (id: string, filter: string) => {
     setActiveID(id);
     dispatch(coffeeSliceActions.updateFilter(filter));
   };
@@ -24,7 +24,7 @@ const FilterForm: FC = () => {
       renderItem={({ item }) => (
         <Pressable
           style={({ pressed }) => pressed && styles.pressed}
-          onPress={pressItemHandler.bind(this, item.id, item.title)}
+          onPress={pressNavItemHandler.bind(this, item.id, item.title)}
         >
           <Text
             style={[styles.text, activeID === item.id && styles.activeItem]}

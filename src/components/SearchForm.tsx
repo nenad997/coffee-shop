@@ -3,8 +3,7 @@ import { useDispatch } from "react-redux";
 import { TextInput, View, StyleSheet, Alert } from "react-native";
 
 import { Colors } from "../constants/colors";
-import Button from "./ui/Button";
-import { coffeeSliceActions } from "../store/slices/coffee-slice";
+import PressableIcon from "./ui/PressableIcon";
 
 const SearchForm = () => {
   const [enteredText, setEnteredText] = useState("");
@@ -19,14 +18,12 @@ const SearchForm = () => {
       Alert.alert("Invalid input", "Please enter a coffee!");
       return;
     }
-
-    dispatch(coffeeSliceActions.searchCoffee(enteredText));
   };
 
   return (
     <View style={styles.form}>
       <View style={styles.searchButton}>
-        <Button name="search" onPress={filterCoffeesHandler} />
+        <PressableIcon name="search" onPress={filterCoffeesHandler} />
       </View>
       <TextInput
         placeholderTextColor="gray"

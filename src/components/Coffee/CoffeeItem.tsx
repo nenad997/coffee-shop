@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { CoffeeProps } from "../../util/types";
 import { Colors } from "../../constants/colors";
-import Button from "../ui/Button";
+import PressableIcon from "../ui/PressableIcon";
 import Icon from "../ui/Icon";
 
 const CoffeeItem: FC<CoffeeProps> = ({ item }) => {
@@ -53,7 +53,7 @@ const CoffeeItem: FC<CoffeeProps> = ({ item }) => {
             <Text style={styles.icon}>$</Text> {item.price}
           </Text>
           <View style={styles.addToCartButton}>
-            <Button name="plus" onPress={() => {}} />
+            <PressableIcon name="plus" onPress={() => {}} />
           </View>
         </View>
       </View>
