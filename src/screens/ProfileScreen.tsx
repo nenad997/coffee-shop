@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 
 import { ScreenParamList } from "../util/types";
 
-const AuthScreen: FC<ScreenParamList> = () => {
+const ProfileScreen: FC<ScreenParamList> = () => {
   return (
     <View style={styles.screenContainer}>
       <Text>Profile Screen!</Text>
@@ -11,7 +11,7 @@ const AuthScreen: FC<ScreenParamList> = () => {
   );
 };
 
-export default AuthScreen;
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
   screenContainer: {
