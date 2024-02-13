@@ -33,7 +33,7 @@ export function getCoffees() {
         });
       }
 
-      dispatch(coffeeSliceActions.replaceState(coffees));
+      dispatch(coffeeSliceActions.replaceState(coffees.reverse()));
     } catch (error) {
       dispatch(
         uiSliceAction.setError({

@@ -6,7 +6,7 @@ import { ScreenParamList } from "../util/types";
 const AuthScreen: FC<ScreenParamList> = () => {
   return (
     <View style={styles.screenContainer}>
-      <Text>Auth Screen!</Text>
+      <Text>Profile Screen!</Text>
     </View>
   );
 };
