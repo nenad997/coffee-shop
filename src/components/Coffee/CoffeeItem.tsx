@@ -18,7 +18,7 @@ const CoffeeItem: FC<CoffeeProps> = ({ item }) => {
 
   const pressCoffeeItemHandler = () => {
     navigation.navigate("CoffeeDetails", {
-      item,
+      id: item.id,
     });
   };
 

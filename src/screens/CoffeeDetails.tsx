@@ -1,5 +1,5 @@
 import React, { FC, useLayoutEffect, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Text,
   View,
@@ -7,29 +7,36 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
 
-import { ScreenParamList } from "../util/types";
+import { Coffee, ScreenParamList } from "../util/types";
 import { Colors } from "../constants/colors";
 import Icon from "../components/ui/Icon";
 import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
+import { toggleFavoriteCoffeAction } from "../store/actions/coffee-actions";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
+  const coffees = useSelector((state: any) => state.coffee.coffees);
+
+  const selectedCoffee = coffees.find(
+    (coffee: Coffee) => coffee.id === route.params!.id,
+  );
 
   const toggleIsFavorite = (id: string) => {
-    // dispatch(coffeeSliceActions.toggleFavorite(id));
-    // dispatch<any>(toggleFavoriteCoffeAction(id));
-    navigation.navigate("Favorites");
+    dispatch<any>(
+      toggleFavoriteCoffeAction(id, {
+        ...selectedCoffee,
+        isFavorite: !selectedCoffee.isFavorite,
+      }),
+    );
   };
 
   useLayoutEffect(() => {
     const timer = setTimeout(() => {
       if (route.params) {
         navigation.setOptions({
-          title: `${route.params.item.title} - ${route.params.item.addition}`,
+          title: `${selectedCoffee.title} - ${selectedCoffee.addition}`,
         });
       }
     }, 500);
@@ -38,7 +45,7 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   }, [route, navigation]);
 
   useLayoutEffect(() => {
-    if (route.params && isFocused) {
+    if (route.params) {
       navigation.setOptions({
         headerRight: () => (
           <PressableIcon
@@ -46,71 +53,71 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
             config={{
               width: 20,
               height: 20,
-              tintColor: route.params!.item.isFavorite
+              tintColor: selectedCoffee.isFavorite
                 ? Colors.orangePrimary
                 : "white",
             }}
-            onPress={toggleIsFavorite.bind(this, route.params!.item.id)}
+            onPress={toggleIsFavorite.bind(this, route.params!.id)}
           />
         ),
       });
     }
-  }, [navigation, route, toggleIsFavorite, isFocused]);
+  }, [navigation, route, toggleIsFavorite]);
 
   return (
-    <ScrollView style={styles.screenContainer}>
-      <ImageBackground
-        style={styles.image}
-        source={{ uri: route.params!.item.imageUri }}
-        imageStyle={{ borderRadius: 20 }}
-      >
-        <View style={styles.details}>
-          <View style={styles.left}>
-            <Text style={styles.title}>{route.params!.item.title}</Text>
-            <Text style={styles.subtitle}>{route.params!.item.addition}</Text>
-            <View style={styles.ratingContainer}>
-              <Icon name="star" tintColor={Colors.orangePrimary} />
-              <Text style={styles.rating}>
-                {route.params!.item.rating} {"(6.986)"}
-              </Text>
+    selectedCoffee && (
+      <ScrollView style={styles.screenContainer}>
+        <ImageBackground
+          style={styles.image}
+          source={{ uri: selectedCoffee.imageUri }}
+          imageStyle={{ borderRadius: 20 }}
+        >
+          <View style={styles.details}>
+            <View style={styles.left}>
+              <Text style={styles.title}>{selectedCoffee.title}</Text>
+              <Text style={styles.subtitle}>{selectedCoffee.addition}</Text>
+              <View style={styles.ratingContainer}>
+                <Icon name="star" tintColor={Colors.orangePrimary} />
+                <Text style={styles.rating}>
+                  {selectedCoffee.rating} {"(6.986)"}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.right}>
+              <View style={styles.ingredients}>
+                <Text style={styles.coffee}>Coffee</Text>
+                <Text style={styles.coffee}>Milk</Text>
+              </View>
+              <View>
+                <Text style={{ color: "white", fontSize: 18 }}>
+                  Medium Roasted
+                </Text>
+              </View>
             </View>
           </View>
-          <View style={styles.right}>
-            <View style={styles.ingredients}>
-              <Text style={styles.coffee}>Coffee</Text>
-              <Text style={styles.coffee}>Milk</Text>
-            </View>
-            <View>
-              <Text style={{ color: "white", fontSize: 18 }}>
-                Medium Roasted
-              </Text>
-            </View>
-          </View>
+        </ImageBackground>
+        <View style={styles.description}>
+          <Text style={styles.text}>Description</Text>
         </View>
-      </ImageBackground>
-      <View style={styles.description}>
-        <Text style={styles.text}>Description</Text>
-      </View>
-      <View style={styles.action}>
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={styles.text}>Price</Text>
-          <Text
-            style={[
-              styles.dollar,
-              { alignItems: "center", justifyContent: "center" },
-            ]}
-          >
-            ${" "}
-            <Text style={styles.text}>
-              {route.params!.item.price.toFixed(2)}
+        <View style={styles.action}>
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <Text style={styles.text}>Price</Text>
+            <Text
+              style={[
+                styles.dollar,
+                { alignItems: "center", justifyContent: "center" },
+              ]}
+            >
+              ${" "}
+              <Text style={styles.text}>{selectedCoffee.price.toFixed(2)}</Text>
             </Text>
-          </Text>
+          </View>
+          <Button style={styles.button} onPress={() => {}}>
+            Buy Now
+          </Button>
         </View>
-        <Button style={styles.button} onPress={() => {}}>
-          Buy Now
-        </Button>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    )
   );
 };
 

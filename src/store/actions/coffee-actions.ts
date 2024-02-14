@@ -46,20 +46,28 @@ export function getCoffees() {
   };
 }
 
-// export function toggleFavoriteCoffeAction(coffeeId: string) {
-//   return async (dispatch: Dispatch) => {
-//     try {
-//       dispatch(uiSliceAction.setIsLoading(true));
-//       const response = await fetch(`${URL}/coffee/${coffeeId}.json`);
-//       const responseData = await response.json();
+export function toggleFavoriteCoffeAction(
+  coffeeId: string,
+  coffeeData: Coffee,
+) {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await fetch(`${URL}/coffee/${coffeeId}.json`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(coffeeData),
+      });
+      await response.json();
 
-//       dispatch(uiSliceAction.setIsLoading(false));
-//     } catch (error) {
-//       dispatch(
-//         uiSliceAction.setError({
-//           message: "Failed to update coffee",
-//         }),
-//       );
-//     }
-//   };
-// }
+      dispatch(coffeeSliceActions.toggleFavorite(coffeeId));
+    } catch (error) {
+      dispatch(
+        uiSliceAction.setError({
+          message: "Failed to update coffee",
+        }),
+      );
+    }
+  };
+}

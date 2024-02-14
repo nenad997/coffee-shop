@@ -5,9 +5,11 @@ import { Coffee } from "../../util/types";
 const initialState: {
   coffees: Coffee[];
   filter: string;
+  selectedCoffee: null;
 } = {
   coffees: [],
   filter: "Cappuccino",
+  selectedCoffee: null,
 };
 
 const coffeeSlice = createSlice({
@@ -21,18 +23,32 @@ const coffeeSlice = createSlice({
       state.filter = action.payload;
     },
     toggleFavorite: (state, action) => {
-      const updatedCoffes: Coffee[] = state.coffees.map((coffee: Coffee) => {
-        if (coffee.id === action.payload) {
+      const updatedCoffees: Coffee[] = state.coffees.map((coffee: Coffee) => {
+        if(coffee.id === action.payload) {
           return {
             ...coffee,
-            isFavorite: !coffee.isFavorite,
-          };
+            isFavorite: !coffee.isFavorite
+          }
         } else {
           return coffee;
         }
       });
 
-      state.coffees = updatedCoffes;
+      state.coffees = updatedCoffees;
+      // const foundCoffeeIndex: number = state.coffees.findIndex(
+      //   (coffee: Coffee) => coffee.id === action.payload.id,
+      // );
+
+      // if (!foundCoffeeIndex || foundCoffeeIndex === -1) {
+      //   return;
+      // }
+
+      // const foundCoffee = state.coffees[foundCoffeeIndex];
+
+      // foundCoffee.isFavorite = !foundCoffee.isFavorite;
+    },
+    getCoffee: (state, action) => {
+      state.selectedCoffee = action.payload;
     },
   },
 });
