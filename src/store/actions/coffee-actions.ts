@@ -46,7 +46,7 @@ export function getCoffees() {
   };
 }
 
-export function toggleFavoriteCoffeAction(
+export function updateCoffeAction(
   coffeeId: string,
   coffeeData: Coffee,
 ) {

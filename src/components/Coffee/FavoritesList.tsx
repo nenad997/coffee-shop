@@ -7,23 +7,20 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 import PressableIcon from "../ui/PressableIcon";
 import { Coffee } from "../../util/types";
-import { coffeeSliceActions } from "../../store/slices/coffee-slice";
+import { updateCoffeAction } from "../../store/actions/coffee-actions";
 
 const FavoritesList: FC<{
   coffees: Coffee[];
 }> = ({ coffees }) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation<any>();
 
-  const unfavoriteCoffeeHandler = (id: string) => {
-    dispatch(coffeeSliceActions.toggleFavorite(id));
-    if (coffees.length === 1) {
-      navigation.navigate("Home");
-    }
+  const unfavoriteCoffeeHandler = (id: string, coffee: Coffee) => {
+    dispatch<any>(
+      updateCoffeAction(id, { ...coffee, isFavorite: !coffee.isFavorite }),
+    );
   };
 
   return (
@@ -43,7 +40,7 @@ const FavoritesList: FC<{
               </Text>
               <PressableIcon
                 name="delete"
-                onPress={unfavoriteCoffeeHandler.bind(null, item.id)}
+                onPress={unfavoriteCoffeeHandler.bind(null, item.id, item)}
                 config={{
                   tintColor: "red",
                 }}

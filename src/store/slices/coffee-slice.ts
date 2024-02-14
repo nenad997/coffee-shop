@@ -35,17 +35,6 @@ const coffeeSlice = createSlice({
       });
 
       state.coffees = updatedCoffees;
-      // const foundCoffeeIndex: number = state.coffees.findIndex(
-      //   (coffee: Coffee) => coffee.id === action.payload.id,
-      // );
-
-      // if (!foundCoffeeIndex || foundCoffeeIndex === -1) {
-      //   return;
-      // }
-
-      // const foundCoffee = state.coffees[foundCoffeeIndex];
-
-      // foundCoffee.isFavorite = !foundCoffee.isFavorite;
     },
     getCoffee: (state, action) => {
       state.selectedCoffee = action.payload;

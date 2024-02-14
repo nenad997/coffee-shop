@@ -1,4 +1,4 @@
-import React, { FC, useLayoutEffect, useEffect } from "react";
+import React, { FC, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Text,
@@ -13,7 +13,7 @@ import { Colors } from "../constants/colors";
 import Icon from "../components/ui/Icon";
 import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
-import { toggleFavoriteCoffeAction } from "../store/actions/coffee-actions";
+import { updateCoffeAction } from "../store/actions/coffee-actions";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
 
   const toggleIsFavorite = (id: string) => {
     dispatch<any>(
-      toggleFavoriteCoffeAction(id, {
+      updateCoffeAction(id, {
         ...selectedCoffee,
         isFavorite: !selectedCoffee.isFavorite,
       }),
