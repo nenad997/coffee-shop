@@ -1,0 +1,67 @@
+import React, { FC } from "react";
+import { useDispatch } from "react-redux";
+import { View, StyleSheet, Text } from "react-native";
+
+import { CartItemProps } from "../../util/types";
+import PressableIcon from "../ui/PressableIcon";
+import { coffeeSliceActions } from "../../store/slices/coffee-slice";
+
+const CartItem: FC<{
+  item: CartItemProps;
+}> = ({ item }) => {
+  const dispatch = useDispatch();
+
+  const removeItemFromCartHandler = () => {
+    dispatch(coffeeSliceActions.removeFromCart(item.id));
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>
+        {item.title} - {item.addition}
+      </Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.price}>$ {item.totalPrice.toFixed(2)}</Text>
+        <Text style={styles.qty}>Quantity: {item.qty}</Text>
+      </View>
+      <View style={{ alignItems: "center", marginVertical: 15 }}>
+        <PressableIcon
+          name="delete"
+          config={{ tintColor: "red" }}
+          onPress={removeItemFromCartHandler}
+        />
+      </View>
+    </View>
+  );
+};
+
+export default CartItem;
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "space-between",
+    gap: 10,
+    borderBottomWidth: 3,
+    borderBottomColor: "blue",
+    padding: 5,
+  },
+  text: {
+    color: "white",
+    fontSize: 25,
+  },
+  price: {
+    color: "white",
+    fontSize: 20,
+    textAlign: "center",
+  },
+  qty: {
+    color: "white",
+    fontSize: 20,
+  },
+});

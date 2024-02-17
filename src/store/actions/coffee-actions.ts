@@ -46,10 +46,7 @@ export function getCoffees() {
   };
 }
 
-export function updateCoffeAction(
-  coffeeId: string,
-  coffeeData: Coffee,
-) {
+export function updateCoffeAction(coffeeId: string, coffeeData: Coffee) {
   return async (dispatch: Dispatch) => {
     try {
       const response = await fetch(`${URL}/coffee/${coffeeId}.json`, {
@@ -59,6 +56,11 @@ export function updateCoffeAction(
         },
         body: JSON.stringify(coffeeData),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to update coffee");
+      }
+
       await response.json();
 
       dispatch(coffeeSliceActions.toggleFavorite(coffeeId));

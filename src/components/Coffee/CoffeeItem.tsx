@@ -7,19 +7,26 @@ import {
   Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
 
 import { CoffeeProps } from "../../util/types";
 import { Colors } from "../../constants/colors";
 import PressableIcon from "../ui/PressableIcon";
 import Icon from "../ui/Icon";
+import { coffeeSliceActions } from "../../store/slices/coffee-slice";
 
 const CoffeeItem: FC<CoffeeProps> = ({ item }) => {
   const navigation = useNavigation<any>();
+  const dispatch = useDispatch();
 
   const pressCoffeeItemHandler = () => {
     navigation.navigate("CoffeeDetails", {
       id: item.id,
     });
+  };
+
+  const addCoffeeToCartHandler = () => {
+    dispatch(coffeeSliceActions.addToCart(item));
   };
 
   return (
@@ -52,7 +59,7 @@ const CoffeeItem: FC<CoffeeProps> = ({ item }) => {
             <Text style={styles.icon}>$</Text> {item.price.toFixed(2)}
           </Text>
           <View style={styles.addToCartButton}>
-            <PressableIcon name="plus" onPress={() => {}} />
+            <PressableIcon name="plus" onPress={addCoffeeToCartHandler} />
           </View>
         </View>
       </View>

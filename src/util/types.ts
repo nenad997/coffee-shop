@@ -60,3 +60,16 @@ export type CoffeeType = {
 export type FilterFormProps = {
   onFilterCoffee: (filter: string) => void;
 };
+
+export type CartItemProps = {
+  id: string;
+  coffeeType: "Americano" | "Espresso" | "Latte" | "Flat Wheat";
+  imageUri: string;
+  rating: number;
+  title: string;
+  addition: string;
+  price: number;
+  isFavorite: boolean;
+  qty: number;
+  totalPrice: number;
+};

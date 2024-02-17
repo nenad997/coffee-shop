@@ -10,7 +10,7 @@ import Button from "../components/ui/Button";
 const FavoritesScreen: FC<ScreenParamList> = ({ navigation }) => {
   const coffees = useSelector((state: any) => state.coffee.coffees);
 
-  const shownCoffees = coffees.filter(
+  const shownCoffees: Coffee[] = coffees.filter(
     (coffee: Coffee) => coffee.isFavorite === true,
   );
 

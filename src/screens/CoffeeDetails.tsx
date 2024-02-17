@@ -19,11 +19,11 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const coffees = useSelector((state: any) => state.coffee.coffees);
 
-  const selectedCoffee = coffees.find(
+  const selectedCoffee: Coffee = coffees.find(
     (coffee: Coffee) => coffee.id === route.params!.id,
   );
 
-  const toggleIsFavorite = (id: string) => {
+  const toggleIsFavoriteHandler = (id: string) => {
     dispatch<any>(
       updateCoffeAction(id, {
         ...selectedCoffee,
@@ -57,67 +57,64 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
                 ? Colors.orangePrimary
                 : "white",
             }}
-            onPress={toggleIsFavorite.bind(this, route.params!.id)}
+            onPress={toggleIsFavoriteHandler.bind(this, route.params!.id)}
           />
         ),
       });
     }
-  }, [navigation, route, toggleIsFavorite]);
+  }, [navigation, route, toggleIsFavoriteHandler]);
 
   return (
-    selectedCoffee && (
-      <ScrollView style={styles.screenContainer}>
-        <ImageBackground
-          style={styles.image}
-          source={{ uri: selectedCoffee.imageUri }}
-          imageStyle={{ borderRadius: 20 }}
-        >
-          <View style={styles.details}>
-            <View style={styles.left}>
-              <Text style={styles.title}>{selectedCoffee.title}</Text>
-              <Text style={styles.subtitle}>{selectedCoffee.addition}</Text>
-              <View style={styles.ratingContainer}>
-                <Icon name="star" tintColor={Colors.orangePrimary} />
-                <Text style={styles.rating}>
-                  {selectedCoffee.rating} {"(6.986)"}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.right}>
-              <View style={styles.ingredients}>
-                <Text style={styles.coffee}>Coffee</Text>
-                <Text style={styles.coffee}>Milk</Text>
-              </View>
-              <View>
-                <Text style={{ color: "white", fontSize: 18 }}>
-                  Medium Roasted
-                </Text>
-              </View>
+    <ScrollView style={styles.screenContainer}>
+      <ImageBackground
+        style={styles.image}
+        source={{ uri: selectedCoffee.imageUri }}
+        imageStyle={{ borderRadius: 20 }}
+      >
+        <View style={styles.details}>
+          <View style={styles.left}>
+            <Text style={styles.title}>{selectedCoffee.title}</Text>
+            <Text style={styles.subtitle}>{selectedCoffee.addition}</Text>
+            <View style={styles.ratingContainer}>
+              <Icon name="star" tintColor={Colors.orangePrimary} />
+              <Text style={styles.rating}>
+                {selectedCoffee.rating} {"(6.986)"}
+              </Text>
             </View>
           </View>
-        </ImageBackground>
-        <View style={styles.description}>
-          <Text style={styles.text}>Description</Text>
-        </View>
-        <View style={styles.action}>
-          <View style={{ flex: 1, justifyContent: "center" }}>
-            <Text style={styles.text}>Price</Text>
-            <Text
-              style={[
-                styles.dollar,
-                { alignItems: "center", justifyContent: "center" },
-              ]}
-            >
-              ${" "}
-              <Text style={styles.text}>{selectedCoffee.price.toFixed(2)}</Text>
-            </Text>
+          <View style={styles.right}>
+            <View style={styles.ingredients}>
+              <Text style={styles.coffee}>Coffee</Text>
+              <Text style={styles.coffee}>Milk</Text>
+            </View>
+            <View>
+              <Text style={{ color: "white", fontSize: 18 }}>
+                Medium Roasted
+              </Text>
+            </View>
           </View>
-          <Button style={styles.button} onPress={() => {}}>
-            Buy Now
-          </Button>
         </View>
-      </ScrollView>
-    )
+      </ImageBackground>
+      <View style={styles.description}>
+        <Text style={styles.text}>Description</Text>
+      </View>
+      <View style={styles.action}>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text style={styles.text}>Price</Text>
+          <Text
+            style={[
+              styles.dollar,
+              { alignItems: "center", justifyContent: "center" },
+            ]}
+          >
+            $ <Text style={styles.text}>{selectedCoffee.price.toFixed(2)}</Text>
+          </Text>
+        </View>
+        <Button style={styles.button} onPress={() => {}}>
+          Buy Now
+        </Button>
+      </View>
+    </ScrollView>
   );
 };
 
