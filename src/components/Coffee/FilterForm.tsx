@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { FlatList, StyleSheet, Text, Pressable } from "react-native";
 
@@ -12,8 +12,12 @@ const FilterForm: FC = () => {
 
   const pressNavItemHandler = (id: string, filter: string) => {
     setActiveID(id);
-    dispatch(coffeeSliceActions.updateFilter(filter));
+    dispatch(coffeeSliceActions.filterCoffees(filter));
   };
+
+  useEffect(() => {
+    dispatch(coffeeSliceActions.filterCoffees("Cappuccino"));
+  }, [dispatch]);
 
   return (
     <FlatList

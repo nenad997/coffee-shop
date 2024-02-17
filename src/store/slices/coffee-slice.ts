@@ -7,11 +7,13 @@ const initialState: {
   filter: string;
   cart: CartItemProps[];
   qty: number;
+  filteredCoffees: Coffee[];
 } = {
   coffees: [],
   filter: "Cappuccino",
   cart: [],
   qty: 0,
+  filteredCoffees: [],
 };
 
 const coffeeSlice = createSlice({
@@ -23,6 +25,13 @@ const coffeeSlice = createSlice({
     },
     updateFilter: (state, action) => {
       state.filter = action.payload;
+    },
+    filterCoffees: (state, action) => {
+      const searchTerm = action.payload.toLowerCase();
+      const filteredCoffees = state.coffees.filter(coffee =>
+        coffee.title.toLowerCase().includes(searchTerm),
+      );
+      state.filteredCoffees = filteredCoffees;
     },
     toggleFavorite: (state, action) => {
       const updatedCoffees: Coffee[] = state.coffees.map((coffee: Coffee) => {

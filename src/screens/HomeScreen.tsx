@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 
 import { ScreenParamList } from "../util/types";
-import SearchForm from "../components/SearchForm";
 import CoffeeList from "../components/Coffee/CoffeeList";
 import LoadingIndicator from "../components/ui/LoadingIndicator";
 import ErrorIndicator from "../components/ui/ErrorIndicator";
@@ -32,7 +31,6 @@ const HomeScreen: FC<ScreenParamList> = () => {
         <Text style={styles.text}>Find the best</Text>
         <Text style={styles.text}>coffee for you</Text>
       </View>
-      <SearchForm />
       <CoffeeList />
     </ScrollView>
   );

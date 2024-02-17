@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 import { TextInput, View, StyleSheet, Alert } from "react-native";
 
-import { Colors } from "../constants/colors";
-import PressableIcon from "./ui/PressableIcon";
+import { Colors } from "../../constants/colors";
+import PressableIcon from "../ui/PressableIcon";
+import { coffeeSliceActions } from "../../store/slices/coffee-slice";
 
-const SearchForm = () => {
+const SearchForm: FC = () => {
   const [enteredText, setEnteredText] = useState("");
   const dispatch = useDispatch();
 
@@ -18,6 +19,8 @@ const SearchForm = () => {
       Alert.alert("Invalid input", "Please enter a coffee!");
       return;
     }
+
+    dispatch(coffeeSliceActions.filterCoffees(enteredText));
   };
 
   return (

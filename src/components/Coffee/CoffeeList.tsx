@@ -5,25 +5,26 @@ import { FlatList, StyleSheet, View, Text } from "react-native";
 import CoffeeItem from "./CoffeeItem";
 import FilterForm from "./FilterForm";
 import { Coffee } from "../../util/types";
+import SearchForm from "./SearchForm";
 
 const CoffeeList: FC = () => {
-  const { coffees, filter } = useSelector((state: any) => state.coffee);
+  const { filteredCoffees, filter } = useSelector((state: any) => state.coffee);
 
-  const shownCoffees = coffees.filter(
-    (coffee: Coffee) => coffee.title === filter,
-  );
+  // const shownCoffees = coffees.filter(
+  //   (coffee: Coffee) => coffee.title === filter,
+  // );
 
   let listContent = (
     <FlatList
       style={styles.list}
       horizontal={true}
-      data={shownCoffees}
+      data={filteredCoffees}
       keyExtractor={item => item.id}
       renderItem={({ item }) => <CoffeeItem item={item} />}
     />
   );
 
-  if (!shownCoffees || shownCoffees.length === 0) {
+  if (!filteredCoffees || filteredCoffees.length === 0) {
     listContent = (
       <View style={styles.container}>
         <Text style={styles.fallbackText}>No {filter} coffees</Text>
@@ -33,6 +34,7 @@ const CoffeeList: FC = () => {
 
   return (
     <Fragment>
+      <SearchForm />
       <FilterForm />
       {listContent}
     </Fragment>
@@ -52,6 +54,6 @@ const styles = StyleSheet.create({
   },
   fallbackText: {
     color: "white",
-    fontSize: 20
+    fontSize: 20,
   },
 });
