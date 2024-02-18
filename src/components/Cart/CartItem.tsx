@@ -24,13 +24,7 @@ const CartItem: FC<{
       <Text style={styles.text}>
         {item.title} - {item.addition}
       </Text>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <View style={styles.info}>
         <Text style={styles.price}>
           $ {item.totalPrice.toFixed(2)} {`(${item.qty}`} &times;{" "}
           {`$ ${item.price.toFixed(2)})`}
@@ -83,5 +77,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     marginVertical: 15,
+  },
+  info: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
