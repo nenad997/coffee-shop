@@ -14,6 +14,8 @@ const iconPaths: any = {
   star: require("../../assets/icon-img/star.png"),
   "coffee-bean": require("../../assets/icon-img/coffee-bean.png"),
   delete: require("../../assets/icon-img/delete.png"),
+  add: require("../../assets/icon-img/add.png"),
+  minus: require("../../assets/icon-img/minus.png"),
 };
 
 const Icon: FC<IconProps> = ({

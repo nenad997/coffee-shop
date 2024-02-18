@@ -6,12 +6,14 @@ const initialState: {
   coffees: Coffee[];
   filter: string;
   cart: CartItemProps[];
+  totalAmount: number;
   qty: number;
   filteredCoffees: Coffee[];
 } = {
   coffees: [],
   filter: "Cappuccino",
   cart: [],
+  totalAmount: 0,
   qty: 0,
   filteredCoffees: [],
 };
@@ -58,14 +60,7 @@ const coffeeSlice = createSlice({
 
       if (!existingCartItem) {
         state.cart.push({
-          id: newCartItem.id,
-          title: newCartItem.title,
-          addition: newCartItem.addition,
-          coffeeType: newCartItem.coffeeType,
-          imageUri: newCartItem.imageUri,
-          isFavorite: newCartItem.isFavorite,
-          price: newCartItem.price,
-          rating: newCartItem.rating,
+          ...newCartItem,
           qty: 1,
           totalPrice: newCartItem.price,
         });
@@ -81,6 +76,7 @@ const coffeeSlice = createSlice({
 
         state.cart[existingCartItemIndex] = newCartItem;
       }
+      state.totalAmount += newCartItem.price;
     },
     removeFromCart: (state, action) => {
       const existingCartItemIndex: number = state.cart.findIndex(
@@ -108,6 +104,8 @@ const coffeeSlice = createSlice({
 
         state.cart = updatedCartItems;
       }
+
+      state.totalAmount -= existingCartItem.price;
     },
   },
 });

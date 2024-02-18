@@ -1,5 +1,6 @@
 import React, { FC, Fragment } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { useSelector } from "react-redux";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 import { CartItemProps } from "../../util/types";
 import CartItem from "./CartItem";
@@ -9,6 +10,8 @@ import { Colors } from "../../constants/colors";
 const CartList: FC<{
   cart: CartItemProps[];
 }> = ({ cart }) => {
+  const totalAmount = useSelector((state: any) => state.coffee.totalAmount);
+
   return (
     <Fragment>
       <FlatList
@@ -19,6 +22,7 @@ const CartList: FC<{
           return <CartItem item={item} />;
         }}
       />
+      <Text style={styles.amount}>Total amount: {totalAmount.toFixed(2)}</Text>
       <View style={{ alignItems: "center" }}>
         <Button style={styles.button} onPress={() => {}}>
           Buy Now
@@ -39,6 +43,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: "30%",
     padding: 5,
+    marginBottom: 20,
+  },
+  amount: {
+    color: "white",
+    fontSize: 22,
+    textAlign: "center",
     marginBottom: 20,
   },
 });

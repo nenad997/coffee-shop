@@ -4,15 +4,10 @@ import { FlatList, StyleSheet, View, Text } from "react-native";
 
 import CoffeeItem from "./CoffeeItem";
 import FilterForm from "./FilterForm";
-import { Coffee } from "../../util/types";
 import SearchForm from "./SearchForm";
 
 const CoffeeList: FC = () => {
   const { filteredCoffees, filter } = useSelector((state: any) => state.coffee);
-
-  // const shownCoffees = coffees.filter(
-  //   (coffee: Coffee) => coffee.title === filter,
-  // );
 
   let listContent = (
     <FlatList

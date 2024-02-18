@@ -15,6 +15,10 @@ const CartItem: FC<{
     dispatch(coffeeSliceActions.removeFromCart(item.id));
   };
 
+  const increaseCartQuantity = () => {
+    dispatch(coffeeSliceActions.addToCart(item));
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
@@ -27,14 +31,24 @@ const CartItem: FC<{
           alignItems: "center",
         }}
       >
-        <Text style={styles.price}>$ {item.totalPrice.toFixed(2)}</Text>
+        <Text style={styles.price}>
+          $ {item.totalPrice.toFixed(2)} {`(${item.qty}`} &times;{" "}
+          {`$ ${item.price.toFixed(2)})`}
+        </Text>
         <Text style={styles.qty}>Quantity: {item.qty}</Text>
       </View>
-      <View style={{ alignItems: "center", marginVertical: 15 }}>
+      <View style={styles.actions}>
         <PressableIcon
-          name="delete"
-          config={{ tintColor: "red" }}
+          name={item.qty > 1 ? "minus" : "delete"}
+          config={{ tintColor: item.qty > 1 ? "white" : "red" }}
           onPress={removeItemFromCartHandler}
+        />
+        <PressableIcon
+          name="add"
+          config={{
+            tintColor: "white",
+          }}
+          onPress={increaseCartQuantity}
         />
       </View>
     </View>
@@ -63,5 +77,11 @@ const styles = StyleSheet.create({
   qty: {
     color: "white",
     fontSize: 20,
+  },
+  actions: {
+    flexDirection: "row-reverse",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginVertical: 15,
   },
 });
