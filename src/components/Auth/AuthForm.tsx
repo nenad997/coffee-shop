@@ -12,11 +12,13 @@ const AuthForm: FC<{
 
   const switchModeHandler = () => {
     if (isLogin) {
-      navigation.navigate("Signup");
+      navigation.replace("Signup");
     } else {
-      navigation.navigate("Login");
+      navigation.replace("Login");
     }
   };
+
+  const authenticateHandler = () => {};
 
   return (
     <View style={styles.form}>
@@ -30,6 +32,7 @@ const AuthForm: FC<{
         label="Password"
         config={{
           placeholder: "Password",
+          secureTextEntry: true,
         }}
       />
       {!isLogin && (
@@ -37,12 +40,13 @@ const AuthForm: FC<{
           label="Repeat password"
           config={{
             placeholder: "Repeat password",
+            secureTextEntry: true,
           }}
         />
       )}
       <View style={styles.actions}>
-        <Button style={styles.loginBtn} onPress={() => {}}>
-        {!isLogin ? "Signup" : "Login"}
+        <Button style={styles.authBtn} onPress={authenticateHandler}>
+          {!isLogin ? "Signup" : "Login"}
         </Button>
         <Button onPress={switchModeHandler}>
           {isLogin ? "Signup" : "Login"}
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
   actions: {
     paddingHorizontal: 15,
   },
-  loginBtn: {
+  authBtn: {
     backgroundColor: "blue",
     width: "40%",
     marginVertical: 20,
