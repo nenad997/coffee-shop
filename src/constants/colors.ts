@@ -4,5 +4,6 @@ export const Colors = {
   inputBg: "#353C69",
   tabItem: "#B07903",
   orangePrimary: "#B16102",
-  grayPrimary: "#B7B1A9"
+  grayPrimary: "#B7B1A9",
+  authBg: "#98C25B",
 };

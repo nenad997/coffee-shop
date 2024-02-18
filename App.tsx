@@ -65,7 +65,12 @@ const BottomtabNavigation = () => {
 
 const AuthNavigation = () => {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
     </Stack.Navigator>
@@ -100,7 +105,8 @@ const AuthenticatedNavigation = () => {
 const AppRoot = () => {
   return (
     <NavigationContainer>
-      <AuthenticatedNavigation />
+      {/* <AuthenticatedNavigation /> */}
+      <AuthNavigation />
     </NavigationContainer>
   );
 };
