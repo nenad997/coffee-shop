@@ -15,7 +15,7 @@ const CartItem: FC<{
     dispatch(coffeeSliceActions.removeFromCart(item.id));
   };
 
-  const increaseCartQuantity = () => {
+  const increaseCartItemQuantity = () => {
     dispatch(coffeeSliceActions.addToCart(item));
   };
 
@@ -48,7 +48,7 @@ const CartItem: FC<{
           config={{
             tintColor: "white",
           }}
-          onPress={increaseCartQuantity}
+          onPress={increaseCartItemQuantity}
         />
       </View>
     </View>
