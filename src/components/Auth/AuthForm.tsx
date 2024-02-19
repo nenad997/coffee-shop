@@ -124,6 +124,7 @@ const AuthForm: FC<{
           onChangeText: changeInputTextHandler.bind(this, "email"),
           value: inputs.email.value,
         }}
+        message="Invalid email address"
       />
       <Input
         label="Password"
@@ -134,6 +135,7 @@ const AuthForm: FC<{
           onChangeText: changeInputTextHandler.bind(this, "password"),
           value: inputs.password.value,
         }}
+        message="Invalid password"
       />
       {!isLogin && (
         <Input
@@ -145,6 +147,7 @@ const AuthForm: FC<{
             onChangeText: changeInputTextHandler.bind(this, "repeatPassword"),
             value: inputs.repeatPassword.value,
           }}
+          message="Passwords do not match"
         />
       )}
       <View style={styles.actions}>

@@ -4,8 +4,9 @@ import { View, StyleSheet, Text, TextInput } from "react-native";
 const Input: FC<{
   label: string;
   config: any;
-  hasError?: boolean;
-}> = ({ label, config, hasError }) => {
+  hasError: boolean;
+  message: string;
+}> = ({ label, config, hasError, message }) => {
   const textInputStyles: any = [styles.textInput];
 
   if(hasError) {
@@ -20,6 +21,7 @@ const Input: FC<{
         placeholderTextColor="black"
         {...config}
       />
+      {hasError && <Text style={styles.errorText}>{message}</Text>}
     </View>
   );
 };
@@ -47,4 +49,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "red",
   },
+  errorText: {
+    color: "red"
+  }
 });
