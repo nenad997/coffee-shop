@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -8,6 +8,21 @@ import Button from "../ui/Button";
 const AuthForm: FC<{
   isLogin: boolean;
 }> = ({ isLogin }) => {
+  const [inputs, setInputs] = useState({
+    email: {
+      isValid: true,
+      value: "",
+    },
+    password: {
+      isValid: true,
+      value: "",
+    },
+    repeatPassword: {
+      isValid: true,
+      value: "",
+    },
+  });
+
   const navigation = useNavigation<any>();
 
   const switchModeHandler = () => {
@@ -18,6 +33,32 @@ const AuthForm: FC<{
     }
   };
 
+  const changeInputTextHandler = (identifier: string, enteredText: string) => {
+    setInputs(curInputs => {
+      return {
+        ...curInputs,
+        [identifier]: {
+          value: enteredText,
+          isValid: true,
+        },
+      };
+    });
+  };
+
+  const invalidEmail =
+    inputs.email.value.trim().length === 0 ||
+    !inputs.email.value.includes("@") ||
+    (!inputs.email.value.endsWith("hotmail.com") &&
+      !inputs.email.value.endsWith("gmail.com") &&
+      !inputs.email.value.endsWith("yahoo.com"));
+
+  const invalidPassword =
+    inputs.password.value.trim().length === 0 ||
+    inputs.password.value.trim().length < 6;
+
+  const passwodsDoNotMatch =
+    inputs.password.value.toString() !== inputs.repeatPassword.value.toString();
+
   const authenticateHandler = () => {};
 
   return (
@@ -26,6 +67,8 @@ const AuthForm: FC<{
         label="Email"
         config={{
           placeholder: "Email address",
+          onChangeText: changeInputTextHandler.bind(this, "email"),
+          value: inputs.email.value,
         }}
       />
       <Input
@@ -33,6 +76,8 @@ const AuthForm: FC<{
         config={{
           placeholder: "Password",
           secureTextEntry: true,
+          onChangeText: changeInputTextHandler.bind(this, "password"),
+          value: inputs.password.value,
         }}
       />
       {!isLogin && (
@@ -41,6 +86,8 @@ const AuthForm: FC<{
           config={{
             placeholder: "Repeat password",
             secureTextEntry: true,
+            onChangeText: changeInputTextHandler.bind(this, "repeatPassword"),
+            value: inputs.repeatPassword.value,
           }}
         />
       )}
