@@ -9,7 +9,7 @@ const Input: FC<{
 }> = ({ label, config, hasError, message }) => {
   const textInputStyles: any = [styles.textInput];
 
-  if(hasError) {
+  if (hasError) {
     textInputStyles.push(styles.inputError);
   }
 
@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
     borderColor: "red",
   },
   errorText: {
-    color: "red"
-  }
+    color: "red",
+  },
 });
