@@ -7,7 +7,7 @@ const Input: FC<{
   hasError: boolean;
   message: string;
 }> = ({ label, config, hasError, message }) => {
-  const textInputStyles: any = [styles.textInput];
+  const textInputStyles: any[] = [styles.textInput];
 
   if (hasError) {
     textInputStyles.push(styles.inputError);

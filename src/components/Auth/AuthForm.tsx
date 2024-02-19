@@ -54,8 +54,8 @@ const AuthForm: FC<{
 
     const validPassword = inputs.password.value.trim().length > 6;
 
-    const passwordsDoNotMatch =
-      inputs.password.value.toString() !==
+    const passwordsMatch =
+      inputs.password.value.toString() ===
       inputs.repeatPassword.value.toString();
 
     switch (isLogin) {
@@ -85,7 +85,7 @@ const AuthForm: FC<{
         break;
       }
       case false: {
-        if (!validEmail || !validPassword || !passwordsDoNotMatch) {
+        if (!validEmail || !validPassword || !passwordsMatch) {
           console.log("Error signup");
           setInputs(curInputs => {
             return {
@@ -99,7 +99,7 @@ const AuthForm: FC<{
               },
               repeatPassword: {
                 value: curInputs.repeatPassword.value,
-                isValid: passwordsDoNotMatch,
+                isValid: passwordsMatch,
               },
             };
           });
