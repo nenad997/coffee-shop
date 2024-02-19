@@ -45,26 +45,80 @@ const AuthForm: FC<{
     });
   };
 
-  const invalidEmail =
-    inputs.email.value.trim().length === 0 ||
-    !inputs.email.value.includes("@") ||
-    (!inputs.email.value.endsWith("hotmail.com") &&
-      !inputs.email.value.endsWith("gmail.com") &&
-      !inputs.email.value.endsWith("yahoo.com"));
+  const authenticateHandler = () => {
+    const validEmail =
+      inputs.email.value.endsWith("@hotmail.com") ||
+      inputs.email.value.endsWith("@gmail.com") ||
+      (inputs.email.value.endsWith("@yahoo.com") &&
+        inputs.email.value.trim().length > 10);
 
-  const invalidPassword =
-    inputs.password.value.trim().length === 0 ||
-    inputs.password.value.trim().length < 6;
+    const validPassword = inputs.password.value.trim().length > 6;
 
-  const passwodsDoNotMatch =
-    inputs.password.value.toString() !== inputs.repeatPassword.value.toString();
+    const passwordsDoNotMatch =
+      inputs.password.value.toString() !==
+      inputs.repeatPassword.value.toString();
 
-  const authenticateHandler = () => {};
+    switch (isLogin) {
+      case true: {
+        if (!validEmail || !validPassword) {
+          console.log("Error login");
+          setInputs(curInputs => {
+            return {
+              email: {
+                value: curInputs.email.value,
+                isValid: validEmail,
+              },
+              password: {
+                value: curInputs.password.value,
+                isValid: validPassword,
+              },
+              repeatPassword: {
+                value: curInputs.repeatPassword.value,
+                isValid: true,
+              },
+            };
+          });
+          console.log(validEmail, validPassword);
+        } else {
+          console.log(inputs);
+        }
+        break;
+      }
+      case false: {
+        if (!validEmail || !validPassword || !passwordsDoNotMatch) {
+          console.log("Error signup");
+          setInputs(curInputs => {
+            return {
+              email: {
+                value: curInputs.email.value,
+                isValid: validEmail,
+              },
+              password: {
+                value: curInputs.password.value,
+                isValid: validPassword,
+              },
+              repeatPassword: {
+                value: curInputs.repeatPassword.value,
+                isValid: passwordsDoNotMatch,
+              },
+            };
+          });
+        } else {
+          console.log(inputs);
+        }
+        break;
+      }
+      default: {
+        throw new Error("An Error Occurred!");
+      }
+    }
+  };
 
   return (
     <View style={styles.form}>
       <Input
         label="Email"
+        hasError={!inputs.email.isValid}
         config={{
           placeholder: "Email address",
           onChangeText: changeInputTextHandler.bind(this, "email"),
@@ -73,6 +127,7 @@ const AuthForm: FC<{
       />
       <Input
         label="Password"
+        hasError={!inputs.password.isValid}
         config={{
           placeholder: "Password",
           secureTextEntry: true,
@@ -83,6 +138,7 @@ const AuthForm: FC<{
       {!isLogin && (
         <Input
           label="Repeat password"
+          hasError={!inputs.repeatPassword.isValid}
           config={{
             placeholder: "Repeat password",
             secureTextEntry: true,

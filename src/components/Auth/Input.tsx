@@ -4,12 +4,19 @@ import { View, StyleSheet, Text, TextInput } from "react-native";
 const Input: FC<{
   label: string;
   config: any;
-}> = ({ label, config }) => {
+  hasError?: boolean;
+}> = ({ label, config, hasError }) => {
+  const textInputStyles: any = [styles.textInput];
+
+  if(hasError) {
+    textInputStyles.push(styles.inputError);
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <TextInput
-        style={styles.textInput}
+        style={textInputStyles}
         placeholderTextColor="black"
         {...config}
       />
@@ -34,6 +41,10 @@ const styles = StyleSheet.create({
   textInput: {
     backgroundColor: "white",
     borderRadius: 10,
-    padding: 8
+    padding: 8,
+  },
+  inputError: {
+    borderWidth: 2,
+    borderColor: "red",
   },
 });
