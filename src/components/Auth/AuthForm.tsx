@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { View, StyleSheet, Alert } from "react-native";
+import { useDispatch } from "react-redux";
+import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Input from "./Input";
@@ -26,7 +26,6 @@ const AuthForm: FC<{
   });
 
   const dispatch = useDispatch();
-  const authToken = useSelector((state: any) => state.auth.authToken);
   const navigation = useNavigation<any>();
 
   const switchModeHandler = () => {

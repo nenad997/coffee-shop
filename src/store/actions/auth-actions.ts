@@ -1,8 +1,9 @@
 import { Dispatch } from "redux";
+import { Alert } from "react-native";
 import RNSecureStorage, { ACCESSIBLE } from "rn-secure-storage";
 
 import { signUp, login } from "../../util/authentication/auth";
-import authSlice, { authSliceActions } from "../slices/auth-slice";
+import { authSliceActions } from "../slices/auth-slice";
 import { uiSliceAction } from "../slices/ui-slice";
 
 function setExpirationTime(cb: () => void) {
@@ -41,10 +42,12 @@ export function signUpAction(email: string, password: string) {
       dispatch(uiSliceAction.setIsLoading(true));
       const signUpData = await signUp(email, password);
 
-      if (!signUpData) {
-        throw new Error(
+      if (!signUpData.idToken) {
+        Alert.alert(
+          "Signup failed",
           "User with this email address already exists! Please pick another email address and try again later!",
         );
+        return;
       }
 
       RNSecureStorage.setItem("authToken", signUpData.idToken, {
@@ -79,10 +82,12 @@ export function loginAction(email: string, password: string) {
       dispatch(uiSliceAction.setIsLoading(true));
       const loginData = await login(email, password);
 
-      if (!loginData) {
-        throw new Error(
+      if (!loginData.idToken) {
+        Alert.alert(
+          "Login failed",
           "Invalid email or password, please check your credentials and try again later!",
         );
+        return;
       }
 
       RNSecureStorage.setItem("authToken", loginData.idToken, {
