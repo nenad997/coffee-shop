@@ -1,12 +1,24 @@
 import React, { FC } from "react";
+import { useDispatch } from "react-redux";
 import { Text, View, StyleSheet } from "react-native";
 
 import { ScreenParamList } from "../util/types";
+import Button from "../components/ui/Button";
+import { authSliceActions } from "../store/slices/auth-slice";
 
 const ProfileScreen: FC<ScreenParamList> = () => {
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(authSliceActions.logout());
+  };
+
   return (
     <View style={styles.screenContainer}>
       <Text>Profile Screen!</Text>
+      <Button style={styles.logoutBtn} onPress={logoutHandler}>
+        Logout
+      </Button>
     </View>
   );
 };
@@ -18,5 +30,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  logoutBtn: {
+    backgroundColor: "red",
+    padding: 7,
+    borderRadius: 6,
   },
 });
