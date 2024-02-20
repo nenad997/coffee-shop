@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import RNSecureStorage, { ACCESSIBLE } from "rn-secure-storage";
 
 import { signUp, login } from "../../util/authentication/auth";
-import { authSliceActions } from "../slices/auth-slice";
+import authSlice, { authSliceActions } from "../slices/auth-slice";
 import { uiSliceAction } from "../slices/ui-slice";
 
 function setExpirationTime(cb: () => void) {
@@ -12,6 +12,24 @@ function setExpirationTime(cb: () => void) {
     .then(res => {
       cb();
     })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+function clearExpirationTime(cb: () => void) {
+  RNSecureStorage.removeItem("expirationTime")
+    .then(res => {
+      cb();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+function clearAuthToken() {
+  RNSecureStorage.removeItem("authToken")
+    .then(res => {})
     .catch(err => {
       console.log(err);
     });
@@ -90,5 +108,17 @@ export function loginAction(email: string, password: string) {
       );
     }
     dispatch(uiSliceAction.setIsLoading(false));
+  };
+}
+
+export function logoutAction() {
+  return async (dispatch: Dispatch) => {
+    dispatch(uiSliceAction.setIsLoading(true));
+
+    clearExpirationTime(() => {
+      clearAuthToken();
+      dispatch(authSliceActions.logout());
+      dispatch(uiSliceAction.setIsLoading(false));
+    });
   };
 }
