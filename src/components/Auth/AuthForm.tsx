@@ -1,9 +1,12 @@
 import React, { FC, useState } from "react";
+import { useDispatch } from "react-redux";
 import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Input from "./Input";
 import Button from "../ui/Button";
+import { signUp, login } from "../../util/authentication/auth";
+import { authSliceActions } from "../../store/slices/auth-slice";
 
 const AuthForm: FC<{
   isLogin: boolean;
@@ -23,6 +26,7 @@ const AuthForm: FC<{
     },
   });
 
+  const dispatch = useDispatch();
   const navigation = useNavigation<any>();
 
   const switchModeHandler = () => {
@@ -45,7 +49,7 @@ const AuthForm: FC<{
     });
   };
 
-  const authenticateHandler = () => {
+  const authenticateHandler = async () => {
     const validEmail =
       inputs.email.value.endsWith("@hotmail.com") ||
       inputs.email.value.endsWith("@gmail.com") ||
@@ -61,7 +65,6 @@ const AuthForm: FC<{
     switch (isLogin) {
       case true: {
         if (!validEmail || !validPassword) {
-          console.log("Error login");
           setInputs(curInputs => {
             return {
               email: {
@@ -78,15 +81,22 @@ const AuthForm: FC<{
               },
             };
           });
-          console.log(validEmail, validPassword);
         } else {
-          console.log(inputs);
+          const { repeatPassword, ...loginInputs } = inputs;
+
+          const loginData = await login(
+            loginInputs.email.value,
+            loginInputs.password.value,
+          );
+
+          if (loginData.idToken) {
+            dispatch(authSliceActions.authenticate(loginData.idToken));
+          }
         }
         break;
       }
       case false: {
         if (!validEmail || !validPassword || !passwordsMatch) {
-          console.log("Error signup");
           setInputs(curInputs => {
             return {
               email: {
@@ -104,7 +114,14 @@ const AuthForm: FC<{
             };
           });
         } else {
-          console.log(inputs);
+          const signUpData = await signUp(
+            inputs.email.value,
+            inputs.password.value,
+          );
+
+          if (signUpData.idToken) {
+            dispatch(authSliceActions.authenticate(signUpData.idToken));
+          }
         }
         break;
       }

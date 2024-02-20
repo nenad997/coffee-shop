@@ -1,5 +1,5 @@
 import React from "react";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -103,10 +103,12 @@ const AuthenticatedNavigation = () => {
 };
 
 const AppRoot = () => {
+  const authToken = useSelector((state: any) => state.auth.authToken);
+
   return (
     <NavigationContainer>
-      {/* <AuthenticatedNavigation /> */}
-      <AuthNavigation />
+      {authToken && <AuthenticatedNavigation />}
+      {!authToken && <AuthNavigation />}
     </NavigationContainer>
   );
 };
