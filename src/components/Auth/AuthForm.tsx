@@ -101,6 +101,13 @@ const AuthForm: FC<{
               .catch(err => {
                 console.log(err);
               });
+            RNSecureStorage.setItem("expirationTime", "3600000", {
+              accessible: ACCESSIBLE.WHEN_UNLOCKED,
+            })
+              .then(res => {})
+              .catch(err => {
+                console.log(err);
+              });
           } else {
             Alert.alert(
               "Login failed!",
@@ -138,6 +145,14 @@ const AuthForm: FC<{
             dispatch(authSliceActions.authenticate(signUpData.idToken));
 
             RNSecureStorage.setItem("authToken", signUpData.idToken, {
+              accessible: ACCESSIBLE.WHEN_UNLOCKED,
+            })
+              .then(res => {})
+              .catch(err => {
+                console.log(err);
+              });
+
+            RNSecureStorage.setItem("expirationTime", "3600000", {
               accessible: ACCESSIBLE.WHEN_UNLOCKED,
             })
               .then(res => {})

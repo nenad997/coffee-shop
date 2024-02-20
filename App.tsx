@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -105,6 +105,7 @@ const AuthenticatedNavigation = () => {
 };
 
 const AppRoot = () => {
+  const [expTime, setExpTime] = useState<number | null>(3600000);
   const dispatch = useDispatch();
   const authToken = useSelector((state: any) => state.auth.authToken);
 
@@ -117,6 +118,25 @@ const AppRoot = () => {
       })
       .catch(error => {});
   }, [dispatch]);
+
+  useEffect(() => {
+    RNSecureStorage.getItem("expirationTime")
+      .then(res => {
+        const expirationTime = +res!;
+        console.log(expirationTime);
+        console.log(typeof expirationTime);
+        setExpTime(expirationTime);
+      })
+      .catch(error => {});
+  }, [setExpTime]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(authSliceActions.logout());
+    }, expTime!);
+
+    return () => clearTimeout(timer);
+  }, [dispatch, expTime]);
 
   return (
     <NavigationContainer>
