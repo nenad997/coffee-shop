@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Input from "./Input";
@@ -91,6 +91,11 @@ const AuthForm: FC<{
 
           if (loginData.idToken) {
             dispatch(authSliceActions.authenticate(loginData.idToken));
+          } else {
+            Alert.alert(
+              "Login failed!",
+              "Invalid email or password, please check your credentials and try again later!",
+            );
           }
         }
         break;
@@ -121,6 +126,11 @@ const AuthForm: FC<{
 
           if (signUpData.idToken) {
             dispatch(authSliceActions.authenticate(signUpData.idToken));
+          } else {
+            Alert.alert(
+              "Signup failed",
+              "User with this email address already exists! Please pick another email address and try again later!",
+            );
           }
         }
         break;
