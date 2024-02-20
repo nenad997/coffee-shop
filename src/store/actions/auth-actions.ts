@@ -20,8 +20,7 @@ function setExpirationTime(cb: () => void) {
 export function signUpAction(email: string, password: string) {
   return async (dispatch: Dispatch) => {
     try {
-      uiSliceAction.setIsLoading(true);
-
+      dispatch(uiSliceAction.setIsLoading(true));
       const signUpData = await signUp(email, password);
 
       if (!signUpData) {
@@ -45,25 +44,21 @@ export function signUpAction(email: string, password: string) {
             }),
           );
         });
-
-      dispatch(uiSliceAction.setIsLoading(false));
     } catch (error: any) {
       dispatch(
         uiSliceAction.setError({
           message: error.message,
         }),
       );
-    } finally {
-      dispatch(uiSliceAction.setIsLoading(false));
     }
+    dispatch(uiSliceAction.setIsLoading(false));
   };
 }
 
 export function loginAction(email: string, password: string) {
   return async (dispatch: Dispatch) => {
     try {
-      uiSliceAction.setIsLoading(true);
-
+      dispatch(uiSliceAction.setIsLoading(true));
       const loginData = await login(email, password);
 
       if (!loginData) {
@@ -93,8 +88,7 @@ export function loginAction(email: string, password: string) {
           message: error.message,
         }),
       );
-    } finally {
-      dispatch(uiSliceAction.setIsLoading(false));
     }
+    dispatch(uiSliceAction.setIsLoading(false));
   };
 }
