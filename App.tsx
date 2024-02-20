@@ -1,8 +1,9 @@
-import React from "react";
-import { Provider, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { Provider, useSelector, useDispatch } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import RNSecureStorage from "rn-secure-storage";
 
 import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
@@ -14,6 +15,7 @@ import ProfileScreen from "./src/screens/ProfileScreen";
 import Icon from "./src/components/ui/Icon";
 import store from "./src/store/index";
 import { Colors } from "./src/constants/colors";
+import { authSliceActions } from "./src/store/slices/auth-slice";
 
 const Stack = createNativeStackNavigator();
 const Bottomtab = createBottomTabNavigator();
@@ -103,7 +105,18 @@ const AuthenticatedNavigation = () => {
 };
 
 const AppRoot = () => {
+  const dispatch = useDispatch();
   const authToken = useSelector((state: any) => state.auth.authToken);
+
+  useEffect(() => {
+    RNSecureStorage.getItem("authToken")
+      .then(token => {
+        if (token) {
+          dispatch(authSliceActions.authenticate(token));
+        }
+      })
+      .catch(error => {});
+  }, [dispatch]);
 
   return (
     <NavigationContainer>

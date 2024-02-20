@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
 import { Text, View, StyleSheet } from "react-native";
+import RNSecureStorage from "rn-secure-storage";
 
 import { ScreenParamList } from "../util/types";
 import Button from "../components/ui/Button";
@@ -10,7 +11,11 @@ const ProfileScreen: FC<ScreenParamList> = () => {
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    dispatch(authSliceActions.logout());
+    RNSecureStorage.removeItem("authToken")
+      .then(res => {
+        dispatch(authSliceActions.logout());
+      })
+      .catch(error => {});
   };
 
   return (

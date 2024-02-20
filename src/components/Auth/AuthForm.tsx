@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { View, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import RNSecureStorage, { ACCESSIBLE } from "rn-secure-storage";
 
 import Input from "./Input";
 import Button from "../ui/Button";
@@ -27,6 +28,7 @@ const AuthForm: FC<{
   });
 
   const dispatch = useDispatch();
+  const authToken = useSelector((state: any) => state.auth.authToken);
   const navigation = useNavigation<any>();
 
   const switchModeHandler = () => {
@@ -91,6 +93,14 @@ const AuthForm: FC<{
 
           if (loginData.idToken) {
             dispatch(authSliceActions.authenticate(loginData.idToken));
+
+            RNSecureStorage.setItem("authToken", loginData.idToken, {
+              accessible: ACCESSIBLE.WHEN_UNLOCKED,
+            })
+              .then(res => {})
+              .catch(err => {
+                console.log(err);
+              });
           } else {
             Alert.alert(
               "Login failed!",
@@ -126,6 +136,14 @@ const AuthForm: FC<{
 
           if (signUpData.idToken) {
             dispatch(authSliceActions.authenticate(signUpData.idToken));
+
+            RNSecureStorage.setItem("authToken", signUpData.idToken, {
+              accessible: ACCESSIBLE.WHEN_UNLOCKED,
+            })
+              .then(res => {})
+              .catch(err => {
+                console.log(err);
+              });
           } else {
             Alert.alert(
               "Signup failed",
