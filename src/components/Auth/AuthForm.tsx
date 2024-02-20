@@ -2,12 +2,10 @@ import React, { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RNSecureStorage, { ACCESSIBLE } from "rn-secure-storage";
 
 import Input from "./Input";
 import Button from "../ui/Button";
-import { signUp, login } from "../../util/authentication/auth";
-import { authSliceActions } from "../../store/slices/auth-slice";
+import { signUpAction, loginAction } from "../../store/actions/auth-actions";
 
 const AuthForm: FC<{
   isLogin: boolean;
@@ -85,35 +83,9 @@ const AuthForm: FC<{
           });
         } else {
           const { repeatPassword, ...loginInputs } = inputs;
-
-          const loginData = await login(
-            loginInputs.email.value,
-            loginInputs.password.value,
+          dispatch<any>(
+            loginAction(loginInputs.email.value, loginInputs.password.value),
           );
-
-          if (loginData.idToken) {
-            dispatch(authSliceActions.authenticate(loginData.idToken));
-
-            RNSecureStorage.setItem("authToken", loginData.idToken, {
-              accessible: ACCESSIBLE.WHEN_UNLOCKED,
-            })
-              .then(res => {})
-              .catch(err => {
-                console.log(err);
-              });
-            RNSecureStorage.setItem("expirationTime", "3600000", {
-              accessible: ACCESSIBLE.WHEN_UNLOCKED,
-            })
-              .then(res => {})
-              .catch(err => {
-                console.log(err);
-              });
-          } else {
-            Alert.alert(
-              "Login failed!",
-              "Invalid email or password, please check your credentials and try again later!",
-            );
-          }
         }
         break;
       }
@@ -136,35 +108,9 @@ const AuthForm: FC<{
             };
           });
         } else {
-          const signUpData = await signUp(
-            inputs.email.value,
-            inputs.password.value,
+          dispatch<any>(
+            signUpAction(inputs.email.value, inputs.password.value),
           );
-
-          if (signUpData.idToken) {
-            dispatch(authSliceActions.authenticate(signUpData.idToken));
-
-            RNSecureStorage.setItem("authToken", signUpData.idToken, {
-              accessible: ACCESSIBLE.WHEN_UNLOCKED,
-            })
-              .then(res => {})
-              .catch(err => {
-                console.log(err);
-              });
-
-            RNSecureStorage.setItem("expirationTime", "3600000", {
-              accessible: ACCESSIBLE.WHEN_UNLOCKED,
-            })
-              .then(res => {})
-              .catch(err => {
-                console.log(err);
-              });
-          } else {
-            Alert.alert(
-              "Signup failed",
-              "User with this email address already exists! Please pick another email address and try again later!",
-            );
-          }
         }
         break;
       }

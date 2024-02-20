@@ -123,8 +123,6 @@ const AppRoot = () => {
     RNSecureStorage.getItem("expirationTime")
       .then(res => {
         const expirationTime = +res!;
-        console.log(expirationTime);
-        console.log(typeof expirationTime);
         setExpTime(expirationTime);
       })
       .catch(error => {});
