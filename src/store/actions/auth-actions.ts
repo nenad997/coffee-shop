@@ -45,7 +45,7 @@ export function signUpAction(email: string, password: string) {
       if (!signUpData.idToken) {
         Alert.alert(
           "Signup failed",
-          "User with this email address already exists! Please pick another email address and try again later!",
+          "User with this email address already exists! Please pick another email address or try again later!",
         );
         return;
       }
@@ -85,7 +85,7 @@ export function loginAction(email: string, password: string) {
       if (!loginData.idToken) {
         Alert.alert(
           "Login failed",
-          "Invalid email or password, please check your credentials and try again later!",
+          "Invalid email or password, please check your credentials or try again later!",
         );
         return;
       }
