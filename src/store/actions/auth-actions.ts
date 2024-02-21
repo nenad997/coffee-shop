@@ -18,6 +18,23 @@ function setExpirationTime(cb?: () => void) {
     });
 }
 
+function setAuthTokenInStorage(
+  key: string,
+  token: string,
+  callback: () => void,
+  fallback: () => void,
+) {
+  RNSecureStorage.setItem(key, token, {
+    accessible: ACCESSIBLE.WHEN_UNLOCKED,
+  })
+    .then(res => {
+      callback();
+    })
+    .catch(err => {
+      fallback();
+    });
+}
+
 function clearExpirationTime(cb?: () => void) {
   RNSecureStorage.removeItem("expirationTime")
     .then(res => {
@@ -50,21 +67,22 @@ export function signUpAction(email: string, password: string) {
         return;
       }
 
-      RNSecureStorage.setItem("authToken", signUpData.idToken, {
-        accessible: ACCESSIBLE.WHEN_UNLOCKED,
-      })
-        .then(res => {
+      setAuthTokenInStorage(
+        "authToken",
+        signUpData.idToken,
+        () => {
           setExpirationTime(() => {
             dispatch(authSliceActions.authenticate(signUpData.idToken));
           });
-        })
-        .catch(err => {
+        },
+        () => {
           dispatch(
             uiSliceAction.setError({
               message: "Could not save auth token, please try again later!",
             }),
           );
-        });
+        },
+      );
     } catch (error: any) {
       dispatch(
         uiSliceAction.setError({
@@ -90,21 +108,22 @@ export function loginAction(email: string, password: string) {
         return;
       }
 
-      RNSecureStorage.setItem("authToken", loginData.idToken, {
-        accessible: ACCESSIBLE.WHEN_UNLOCKED,
-      })
-        .then(res => {
+      setAuthTokenInStorage(
+        "authToken",
+        loginData.idToken,
+        () => {
           setExpirationTime(() => {
             dispatch(authSliceActions.authenticate(loginData.idToken));
           });
-        })
-        .catch(err => {
+        },
+        () => {
           dispatch(
             uiSliceAction.setError({
               message: "Could not save auth token, please try again later!",
             }),
           );
-        });
+        },
+      );
     } catch (error: any) {
       dispatch(
         uiSliceAction.setError({
