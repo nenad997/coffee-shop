@@ -6,22 +6,22 @@ import { signUp, login } from "../../util/authentication/auth";
 import { authSliceActions } from "../slices/auth-slice";
 import { uiSliceAction } from "../slices/ui-slice";
 
-function setExpirationTime(cb: () => void) {
+function setExpirationTime(cb?: () => void) {
   RNSecureStorage.setItem("expirationTime", "3600000", {
     accessible: ACCESSIBLE.WHEN_UNLOCKED,
   })
     .then(res => {
-      cb();
+      cb!();
     })
     .catch(err => {
       console.log(err);
     });
 }
 
-function clearExpirationTime(cb: () => void) {
+function clearExpirationTime(cb?: () => void) {
   RNSecureStorage.removeItem("expirationTime")
     .then(res => {
-      cb();
+      cb!();
     })
     .catch(err => {
       console.log(err);
