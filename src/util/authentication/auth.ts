@@ -29,7 +29,7 @@ export function login(email: string, password: string) {
   return authenticate("signInWithPassword", email, password);
 }
 
-export async function getUserData(idToken?: string) {
+export async function getUserData(idToken: string) {
   const URL = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`;
   const response = await fetch(URL, {
     method: "POST",
@@ -37,7 +37,7 @@ export async function getUserData(idToken?: string) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      idToken: idToken,
+      idToken,
     }),
   });
 
