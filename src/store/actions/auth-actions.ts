@@ -53,26 +53,31 @@ function clearAuthToken() {
     });
 }
 
-export function signUpAction(email: string, password: string) {
+function authAction(
+  email: string,
+  password: string,
+  getAuthData: (email: string, password: string) => any,
+  fallback: {
+    title: string;
+    message: string;
+  },
+) {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(uiSliceAction.setIsLoading(true));
-      const signUpData = await signUp(email, password);
+      const authData = await getAuthData(email, password);
 
-      if (!signUpData.idToken) {
-        Alert.alert(
-          "Signup failed",
-          "User with this email address already exists! Please pick another email address or try again later!",
-        );
+      if (!authData.idToken) {
+        Alert.alert(fallback.title, fallback.message);
         return;
       }
 
       setAuthTokenInStorage(
         "authToken",
-        signUpData.idToken,
+        authData.idToken,
         () => {
           setExpirationTime(() => {
-            dispatch(authSliceActions.authenticate(signUpData.idToken));
+            dispatch(authSliceActions.authenticate(authData.idToken));
           });
         },
         () => {
@@ -94,45 +99,34 @@ export function signUpAction(email: string, password: string) {
   };
 }
 
+export function signUpAction(email: string, password: string) {
+  return authAction(
+    email,
+    password,
+    async () => {
+      return signUp(email, password);
+    },
+    {
+      title: "Signup failed",
+      message:
+        "User with this email address already exists! Please pick another email address or try again later!",
+    },
+  );
+}
+
 export function loginAction(email: string, password: string) {
-  return async (dispatch: Dispatch) => {
-    try {
-      dispatch(uiSliceAction.setIsLoading(true));
-      const loginData = await login(email, password);
-
-      if (!loginData.idToken) {
-        Alert.alert(
-          "Login failed",
-          "Invalid email or password, please check your credentials or try again later!",
-        );
-        return;
-      }
-
-      setAuthTokenInStorage(
-        "authToken",
-        loginData.idToken,
-        () => {
-          setExpirationTime(() => {
-            dispatch(authSliceActions.authenticate(loginData.idToken));
-          });
-        },
-        () => {
-          dispatch(
-            uiSliceAction.setError({
-              message: "Could not save auth token, please try again later!",
-            }),
-          );
-        },
-      );
-    } catch (error: any) {
-      dispatch(
-        uiSliceAction.setError({
-          message: error.message,
-        }),
-      );
-    }
-    dispatch(uiSliceAction.setIsLoading(false));
-  };
+  return authAction(
+    email,
+    password,
+    async () => {
+      return login(email, password);
+    },
+    {
+      title: "Login failed",
+      message:
+        "Invalid email or password, please check your credentials or try again later!",
+    },
+  );
 }
 
 export function logoutAction() {
