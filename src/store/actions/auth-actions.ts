@@ -56,7 +56,7 @@ function clearAuthToken() {
 function authAction(
   email: string,
   password: string,
-  getAuthData: (email: string, password: string) => any,
+  getAuthData: (email: string, password: string) => Promise<any>,
   fallback: {
     title: string;
     message: string;
