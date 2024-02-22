@@ -82,7 +82,7 @@ const AuthForm: FC<{
           });
         } else {
           const { repeatPassword, ...loginInputs } = inputs;
-          dispatch<any>(
+          await dispatch<any>(
             loginAction(loginInputs.email.value, loginInputs.password.value),
           );
         }
@@ -107,7 +107,7 @@ const AuthForm: FC<{
             };
           });
         } else {
-          dispatch<any>(
+          await dispatch<any>(
             signUpAction(inputs.email.value, inputs.password.value),
           );
         }
