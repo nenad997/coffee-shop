@@ -19,25 +19,25 @@ const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
         text: "Continue",
         onPress: () => {
           dispatch(coffeeSliceActions.clearCart());
+          console.log("Your order");
+          const orderData = {
+            cart,
+            totalAmount,
+            userData: {
+              emailAddress: userCredentials.users[0].email,
+              userName: userCredentials.users[0].email.split("@")[0],
+              userAddress: "New York City, 5th Avenue, Manhattan",
+            },
+            orderDate: {
+              date: new Date().toISOString().split("T")[0],
+              time: new Date().toISOString().split("T")[1].slice(0, 8),
+            },
+          };
+          console.log(orderData);
           navigation.navigate("BottomTabs");
         },
       },
     ]);
-    console.log("Your order");
-    const orderData = {
-      cart,
-      totalAmount,
-      userData: {
-        emailAddress: userCredentials.users[0].email,
-        userName: userCredentials.users[0].email.split("@")[0],
-        userAddress: "New York City, 5th Avenue, Manhattan",
-      },
-      orderDate: {
-        date: new Date().toISOString().split("T")[0],
-        time: new Date().toISOString().split("T")[1].slice(0, 8),
-      },
-    };
-    console.log(orderData);
   };
 
   return (
