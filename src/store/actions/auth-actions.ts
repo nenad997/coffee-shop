@@ -82,7 +82,13 @@ function authAction(
             .then(() => {
               dispatch<any>(fetchUserDataAction(authData.idToken));
             })
-            .catch(error => {})
+            .catch(error => {
+              dispatch(
+                uiSliceAction.setError({
+                  message: "Failed to fetch user data, please try again later!",
+                }),
+              );
+            })
             .finally(() => {
               dispatch(uiSliceAction.setIsLoading(false));
             });
