@@ -6,7 +6,7 @@ import { signUp, login, getUserData } from "../../util/authentication/auth";
 import { authSliceActions } from "../slices/auth-slice";
 import { uiSliceAction } from "../slices/ui-slice";
 
-function setExpirationTime(cb?: () => void) {
+async function setExpirationTime(cb?: () => void) {
   RNSecureStorage.setItem("expirationTime", "3600000", {
     accessible: ACCESSIBLE.WHEN_UNLOCKED,
   })
@@ -78,7 +78,14 @@ function authAction(
         () => {
           setExpirationTime(() => {
             dispatch(authSliceActions.authenticate(authData.idToken));
-          });
+          })
+            .then(() => {
+              dispatch<any>(fetchUserDataAction(authData.idToken));
+            })
+            .catch(error => {})
+            .finally(() => {
+              dispatch(uiSliceAction.setIsLoading(false));
+            });
         },
         () => {
           dispatch(

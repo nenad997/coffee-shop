@@ -17,7 +17,10 @@ import Icon from "./src/components/ui/Icon";
 import store from "./src/store/index";
 import { Colors } from "./src/constants/colors";
 import { authSliceActions } from "./src/store/slices/auth-slice";
-import { fetchUserDataAction } from "./src/store/actions/auth-actions";
+import {
+  fetchUserDataAction,
+  logoutAction,
+} from "./src/store/actions/auth-actions";
 
 const Stack = createNativeStackNavigator();
 const Bottomtab = createBottomTabNavigator();
@@ -127,6 +130,7 @@ const AppRoot = () => {
       .then(token => {
         if (token) {
           dispatch(authSliceActions.authenticate(token));
+          dispatch<any>(fetchUserDataAction(token));
         }
       })
       .catch(error => {});
@@ -143,21 +147,11 @@ const AppRoot = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch(authSliceActions.logout());
+      dispatch<any>(logoutAction());
     }, expTime!);
 
     return () => clearTimeout(timer);
   }, [dispatch, expTime]);
-
-  useEffect(() => {
-    RNSecureStorage.getItem("authToken")
-      .then(token => {
-        if (token) {
-          dispatch<any>(fetchUserDataAction(token));
-        }
-      })
-      .catch(error => {});
-  }, [dispatch]);
 
   return (
     <NavigationContainer>
