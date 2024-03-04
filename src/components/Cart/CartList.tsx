@@ -1,6 +1,7 @@
 import React, { FC, Fragment } from "react";
 import { useSelector } from "react-redux";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { CartItemProps } from "../../util/types";
 import CartItem from "./CartItem";
@@ -11,6 +12,15 @@ const CartList: FC<{
   cart: CartItemProps[];
 }> = ({ cart }) => {
   const totalAmount = useSelector((state: any) => state.coffee.totalAmount);
+  const navigation = useNavigation<any>();
+
+  const purchaseHandler = () => {
+    console.log("Ordered");
+    //Register user
+    //Show total amount
+    //Redirect
+    navigation.navigate("checkout");
+  };
 
   return (
     <Fragment>
@@ -24,7 +34,7 @@ const CartList: FC<{
       />
       <Text style={styles.amount}>Total amount: {totalAmount.toFixed(2)}</Text>
       <View style={{ alignItems: "center" }}>
-        <Button style={styles.button} onPress={() => {}}>
+        <Button style={styles.button} onPress={purchaseHandler}>
           Buy Now
         </Button>
       </View>

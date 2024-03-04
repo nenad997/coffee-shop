@@ -7,6 +7,7 @@ import Button from "../components/ui/Button";
 import { logoutAction } from "../store/actions/auth-actions";
 import { getUserData } from "../util/authentication/auth";
 import { Colors } from "../constants/colors";
+import { authSliceActions } from "../store/slices/auth-slice";
 
 const ProfileScreen: FC<ScreenParamList> = () => {
   const [user, setUser] = useState<any>();
@@ -21,14 +22,19 @@ const ProfileScreen: FC<ScreenParamList> = () => {
     async function fetchUserData() {
       try {
         const userData = await getUserData(authToken);
-        console.log(userData);
         setUser(userData);
       } catch (error) {
         console.log(error);
       }
     }
-    fetchUserData();
-  }, []);
+    fetchUserData()
+      .then(() => {
+        dispatch(authSliceActions.setUserCredentials(user));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [dispatch]);
 
   return (
     <View style={styles.screenContainer}>
