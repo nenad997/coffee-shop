@@ -48,7 +48,7 @@ const AuthForm: FC<{
     });
   };
 
-  const authenticateHandler = async () => {
+  const authenticateHandler = () => {
     const validEmail =
       inputs.email.value.endsWith("@hotmail.com") ||
       inputs.email.value.endsWith("@gmail.com") ||
@@ -82,7 +82,7 @@ const AuthForm: FC<{
           });
         } else {
           const { repeatPassword, ...loginInputs } = inputs;
-          await dispatch<any>(
+          dispatch<any>(
             loginAction(loginInputs.email.value, loginInputs.password.value),
           );
         }
@@ -107,7 +107,7 @@ const AuthForm: FC<{
             };
           });
         } else {
-          await dispatch<any>(
+          dispatch<any>(
             signUpAction(inputs.email.value, inputs.password.value),
           );
         }

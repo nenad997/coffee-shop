@@ -1,9 +1,9 @@
 import React, { FC, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { FlatList, StyleSheet, Text, Pressable } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 
 import { CoffeeTypes } from "../../data/coffees";
-import { Colors } from "../../constants/colors";
+import FilterItem from "./FilterItem";
 import { coffeeSliceActions } from "../../store/slices/coffee-slice";
 
 const FilterForm: FC = () => {
@@ -26,16 +26,11 @@ const FilterForm: FC = () => {
       horizontal={true}
       keyExtractor={item => item.id}
       renderItem={({ item }) => (
-        <Pressable
-          style={({ pressed }) => pressed && styles.pressed}
-          onPress={pressNavItemHandler.bind(this, item.id, item.title)}
-        >
-          <Text
-            style={[styles.text, activeID === item.id && styles.activeItem]}
-          >
-            {item.title}
-          </Text>
-        </Pressable>
+        <FilterItem
+          item={item}
+          isItemActive={activeID === item.id}
+          onPress={pressNavItemHandler}
+        />
       )}
     />
   );
@@ -48,16 +43,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginTop: 30,
     marginBottom: 20,
-  },
-  text: {
-    color: Colors.grayPrimary,
-    marginHorizontal: 10,
-    fontSize: 22,
-  },
-  pressed: {
-    opacity: 0.7,
-  },
-  activeItem: {
-    color: Colors.orangePrimary,
   },
 });

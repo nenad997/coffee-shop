@@ -21,6 +21,7 @@ const ProfileScreen: FC<ScreenParamList> = () => {
     async function fetchUserData() {
       try {
         const userData = await getUserData(authToken);
+        console.log(userData);
         setUser(userData);
       } catch (error) {
         console.log(error);
@@ -35,6 +36,9 @@ const ProfileScreen: FC<ScreenParamList> = () => {
         <View style={styles.infoContainer}>
           <Text style={styles.info}>User's info</Text>
           <Text style={styles.email}>Email: {user.users[0].email}</Text>
+          <Text style={{ color: "yellow", textAlign: "center" }}>
+            LocalId: {user.users[0].localId}
+          </Text>
           <Text style={styles.name}>
             Username: {user.users[0].email.split("@")[0]}
           </Text>
@@ -66,12 +70,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "yellow",
     borderWidth: 2,
     padding: 10,
-    gap: 15
+    gap: 15,
   },
   info: {
     color: "white",
     textAlign: "center",
-    fontSize: 30
+    fontSize: 30,
   },
   email: {
     color: "white",
@@ -82,6 +86,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     textAlign: "center",
-    padding: 5
+    padding: 5,
   },
 });
