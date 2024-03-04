@@ -1,16 +1,44 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { View, StyleSheet, Text } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { View, StyleSheet, Text, Alert } from "react-native";
 
 import Button from "../components/ui/Button";
+import { coffeeSliceActions } from "../store/slices/coffee-slice";
+import { ScreenParamList } from "../util/types";
 
-const CheckOutScreen = () => {
-  const totalAmount = useSelector((state: any) => state.coffee.totalAmount);
+const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
+  const { totalAmount, cart } = useSelector((state: any) => state.coffee);
   const userCredentials = useSelector(
     (state: any) => state.auth.userCredentials,
   );
+  const dispatch = useDispatch();
 
-  const confirmPurchaseHandler = () => {};
+  const confirmPurchaseHandler = () => {
+    Alert.alert("Purchase successful", "Proceed", [
+      {
+        text: "Continue",
+        onPress: () => {
+          dispatch(coffeeSliceActions.clearCart());
+          navigation.navigate("BottomTabs");
+        },
+      },
+    ]);
+    console.log("Your order");
+    const orderData = {
+      cart,
+      totalAmount,
+      userData: {
+        emailAddress: userCredentials.users[0].email,
+        userName: userCredentials.users[0].email.split("@")[0],
+        userAddress: "New York City, 5th Avenue, Manhattan",
+      },
+      orderDate: {
+        date: new Date().toISOString().split("T")[0],
+        time: new Date().toISOString().split("T")[1].slice(0, 8),
+      },
+    };
+    console.log(orderData);
+  };
 
   return (
     <View style={styles.container}>
@@ -44,7 +72,7 @@ const styles = StyleSheet.create({
   email: {
     textAlign: "center",
     color: "white",
-    fontSize: 17
+    fontSize: 17,
   },
   confirmButton: {
     backgroundColor: "#635AFC",

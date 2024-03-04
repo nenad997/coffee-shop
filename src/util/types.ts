@@ -16,6 +16,7 @@ type ScreenName = {
   Favorites: any;
   Profile: any;
   CoffeeDetails: any;
+  BottomTabs: any;
 };
 
 type AuthScreenName = {

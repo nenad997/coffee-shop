@@ -15,11 +15,7 @@ const CartList: FC<{
   const navigation = useNavigation<any>();
 
   const purchaseHandler = () => {
-    console.log("Ordered");
-    //Register user
-    //Show total amount
-    //Redirect
-    navigation.navigate("checkout");
+    navigation.replace("checkout");
   };
 
   return (

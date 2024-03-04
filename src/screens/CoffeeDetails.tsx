@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView,
+  Alert,
 } from "react-native";
 
 import { Coffee, ScreenParamList } from "../util/types";
@@ -14,10 +15,14 @@ import Icon from "../components/ui/Icon";
 import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
 import { updateCoffeAction } from "../store/actions/coffee-actions";
+import { coffeeSliceActions } from "../store/slices/coffee-slice";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const coffees = useSelector((state: any) => state.coffee.coffees);
+  const userCredentials = useSelector(
+    (state: any) => state.auth.userCredentials,
+  );
 
   const selectedCoffee: Coffee = coffees.find(
     (coffee: Coffee) => coffee.id === route.params!.id,
@@ -30,6 +35,33 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
         isFavorite: !selectedCoffee.isFavorite,
       }),
     );
+  };
+
+  const confirmPurchaseHandler = (coffee: Coffee) => {
+    Alert.alert("Purchase successful", "Proceed", [
+      {
+        text: "Continue",
+        onPress: () => {
+          dispatch(coffeeSliceActions.clearCart());
+          navigation.navigate("BottomTabs");
+        },
+      },
+    ]);
+    console.log("Your order");
+    const orderData = {
+      coffee: selectedCoffee,
+      price: selectedCoffee.price,
+      userData: {
+        emailAddress: userCredentials && userCredentials.users[0].email,
+        userName: userCredentials.users[0].email.split("@")[0],
+        userAddress: "New York City, 5th Avenue, Manhattan",
+      },
+      orderDate: {
+        date: new Date().toISOString().split("T")[0],
+        time: new Date().toISOString().split("T")[1].slice(0, 8),
+      },
+    };
+    console.log(orderData);
   };
 
   useLayoutEffect(() => {
@@ -110,7 +142,10 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
             $ <Text style={styles.text}>{selectedCoffee.price.toFixed(2)}</Text>
           </Text>
         </View>
-        <Button style={styles.button} onPress={() => {}}>
+        <Button
+          style={styles.button}
+          onPress={confirmPurchaseHandler.bind(this, selectedCoffee)}
+        >
           Buy Now
         </Button>
       </View>

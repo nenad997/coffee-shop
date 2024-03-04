@@ -107,6 +107,10 @@ const coffeeSlice = createSlice({
 
       state.totalAmount -= existingCartItem.price;
     },
+    clearCart: (state, action: { payload?: any }) => {
+      state.cart = [];
+      state.totalAmount = 0;
+    },
   },
 });
 
