@@ -10,14 +10,14 @@ const CheckOutScreen = () => {
     (state: any) => state.auth.userCredentials,
   );
 
-  console.log(userCredentials)
-
   const confirmPurchaseHandler = () => {};
 
   return (
     <View style={styles.container}>
       <Text style={styles.total}>Total amount: ${totalAmount.toFixed(2)}</Text>
-      {userCredentials && <Text>{userCredentials.users[0].email}</Text>}
+      {userCredentials && (
+        <Text style={styles.email}>{userCredentials.users[0].email}</Text>
+      )}
       <Button style={styles.confirmButton} onPress={confirmPurchaseHandler}>
         Confirm
       </Button>
@@ -30,6 +30,8 @@ export default CheckOutScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
+    gap: 25,
     backgroundColor: "#764D0A",
     paddingVertical: 22,
   },
@@ -39,11 +41,15 @@ const styles = StyleSheet.create({
     fontSize: 25,
     letterSpacing: 2,
   },
+  email: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 17
+  },
   confirmButton: {
     backgroundColor: "#635AFC",
     width: "40%",
     alignSelf: "center",
-    marginTop: 30,
     padding: 4,
     borderRadius: 8,
   },

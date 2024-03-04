@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { Alert } from "react-native";
 import RNSecureStorage, { ACCESSIBLE } from "rn-secure-storage";
 
-import { signUp, login } from "../../util/authentication/auth";
+import { signUp, login, getUserData } from "../../util/authentication/auth";
 import { authSliceActions } from "../slices/auth-slice";
 import { uiSliceAction } from "../slices/ui-slice";
 
@@ -138,5 +138,25 @@ export function logoutAction() {
       dispatch(authSliceActions.logout());
       dispatch(uiSliceAction.setIsLoading(false));
     });
+  };
+}
+
+export function fetchUserDataAction(idToken: string) {
+  return async (dispatch: Dispatch) => {
+    dispatch(uiSliceAction.setIsLoading(true));
+
+    try {
+      const userData = await getUserData(idToken);
+      dispatch(authSliceActions.setUserCredentials(userData));
+
+      dispatch(uiSliceAction.setIsLoading(false));
+    } catch (error) {
+      dispatch(
+        uiSliceAction.setError({
+          message: "Failed to fetch user data!",
+        }),
+      );
+      dispatch(uiSliceAction.setIsLoading(false));
+    }
   };
 }

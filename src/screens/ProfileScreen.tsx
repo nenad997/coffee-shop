@@ -1,40 +1,19 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Text, View, StyleSheet } from "react-native";
 
 import { ScreenParamList } from "../util/types";
 import Button from "../components/ui/Button";
 import { logoutAction } from "../store/actions/auth-actions";
-import { getUserData } from "../util/authentication/auth";
 import { Colors } from "../constants/colors";
-import { authSliceActions } from "../store/slices/auth-slice";
 
 const ProfileScreen: FC<ScreenParamList> = () => {
-  const [user, setUser] = useState<any>();
   const dispatch = useDispatch();
-  const authToken = useSelector((state: any) => state.auth.authToken);
+  const user = useSelector((state: any) => state.auth.userCredentials);
 
   const logoutHandler = () => {
     dispatch<any>(logoutAction());
   };
-
-  useEffect(() => {
-    async function fetchUserData() {
-      try {
-        const userData = await getUserData(authToken);
-        setUser(userData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchUserData()
-      .then(() => {
-        dispatch(authSliceActions.setUserCredentials(user));
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [dispatch]);
 
   return (
     <View style={styles.screenContainer}>
