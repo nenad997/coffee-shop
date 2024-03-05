@@ -157,7 +157,9 @@ const AppRoot = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch<any>(logoutAction());
+      dispatch<any>(
+        logoutAction(),
+      );
     }, expTime!);
 
     return () => clearTimeout(timer);

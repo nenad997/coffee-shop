@@ -43,7 +43,7 @@ export async function fetchUserOrders(loggedInUserId: string) {
       ) {
         transformedData.push({
           orderId: key,
-          order: responseData[key].cart.map((item: any) => {
+          orders: responseData[key].cart.map((item: any) => {
             return {
               title: `${item.title} - ${item.addition}`,
               price: +item.price,

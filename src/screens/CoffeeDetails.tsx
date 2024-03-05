@@ -45,7 +45,7 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
         onPress: async () => {
           dispatch(coffeeSliceActions.clearCart());
           const orderData = {
-            coffee: selectedCoffee,
+            cart: [{ ...selectedCoffee }],
             price: selectedCoffee.price,
             userData: {
               emailAddress: userCredentials.users[0].email,
