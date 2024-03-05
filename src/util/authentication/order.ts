@@ -1,3 +1,5 @@
+import { Alert } from "react-native";
+
 import { FIREBASE_URL } from "../../../variables";
 
 export async function createOrder(data: any) {
@@ -9,5 +11,13 @@ export async function createOrder(data: any) {
     body: JSON.stringify(data),
   });
 
-  await response.json();
+  try {
+    if (!response.ok) {
+      throw new Error("Could not create a new order, please try again later!");
+    }
+
+    await response.json();
+  } catch (error: any) {
+    Alert.alert(error.message);
+  }
 }
