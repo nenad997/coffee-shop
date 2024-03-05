@@ -61,13 +61,15 @@ const OrdersScreen = () => {
       <Text style={styles.header}>My Orders</Text>
       {orderContent}
       {userOrders && <Text style={styles.total}>Total: ${orderTotal}</Text>}
-      <View style={styles.clearOrdersBtn}>
-        <PressableIcon
-          name="delete"
-          onPress={clearMyOrdersHandler}
-          config={{ tintColor: "red" }}
-        />
-      </View>
+      {userOrders && userOrders.length > 0 && (
+        <View style={styles.clearOrdersBtn}>
+          <PressableIcon
+            name="delete"
+            onPress={clearMyOrdersHandler}
+            config={{ tintColor: "red" }}
+          />
+        </View>
+      )}
     </ScrollView>
   );
 };

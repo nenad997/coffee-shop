@@ -133,7 +133,9 @@ const AuthenticatedNavigation = () => {
 const AppRoot = () => {
   const [expTime, setExpTime] = useState<number | null>(3600000);
   const dispatch = useDispatch();
-  const authToken = useSelector((state: any) => state.auth.authToken);
+  const { authToken, userCredentials } = useSelector(
+    (state: any) => state.auth,
+  );
 
   useEffect(() => {
     RNSecureStorage.getItem("authToken")
@@ -157,9 +159,7 @@ const AppRoot = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch<any>(
-        logoutAction(),
-      );
+      dispatch<any>(logoutAction());
     }, expTime!);
 
     return () => clearTimeout(timer);

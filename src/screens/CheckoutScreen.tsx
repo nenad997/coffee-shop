@@ -17,6 +17,11 @@ const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
   const confirmPurchaseHandler = () => {
     Alert.alert("Purchase successful", "Proceed", [
       {
+        text: "Cancel",
+        style: "cancel",
+        onPress: () => navigation.navigate("BottomTabs"),
+      },
+      {
         text: "Continue",
         onPress: async () => {
           dispatch(coffeeSliceActions.clearCart());
