@@ -1,33 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import { Colors } from "../constants/colors";
-import { fetchUserOrders, deleteMyOrders } from "../util/order";
 import PressableIcon from "../components/ui/PressableIcon";
+import {
+  fetchOrdersAction,
+  deleteMyOrdersAction,
+} from "../store/actions/orders-actions";
 
 const OrdersScreen = () => {
-  const [userOrders, setUserOrders] = useState<any>([]);
+  const dispatch = useDispatch();
   const user = useSelector((state: any) => state.auth.userCredentials);
+  const { userOrders, orderTotal } = useSelector((state: any) => state.order);
 
-  const calculateOrderTotal = (order: any) => {
-    return order.orders.reduce(
-      (total: number, item: any) => total + +item.price,
-      0,
-    );
-  };
-
-  const calculateTotalPrice = () => {
-    const totalPrice =
-      userOrders &&
-      userOrders.reduce(
-        (total: number, order: any) => total + calculateOrderTotal(order),
-        0,
-      );
-    return totalPrice.toFixed(2);
-  };
-
-  const clearMyOrdersHandler = async () => {
+  const clearMyOrdersHandler = () => {
     const orderIds = [];
 
     for (const userOrder of userOrders) {
@@ -36,7 +23,7 @@ const OrdersScreen = () => {
       }
     }
 
-    await deleteMyOrders(orderIds);
+    dispatch<any>(deleteMyOrdersAction(orderIds));
   };
 
   let orderContent = (
@@ -66,20 +53,14 @@ const OrdersScreen = () => {
   }
 
   useEffect(() => {
-    async function getUserOrders() {
-      const orders = await fetchUserOrders(user.users[0].localId);
-      setUserOrders(orders);
-    }
-    getUserOrders();
+    dispatch<any>(fetchOrdersAction(user.users[0].localId));
   }, []);
 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>My Orders</Text>
       {orderContent}
-      {userOrders && (
-        <Text style={styles.total}>Total: ${calculateTotalPrice()}</Text>
-      )}
+      {userOrders && <Text style={styles.total}>Total: ${orderTotal}</Text>}
       <View style={styles.clearOrdersBtn}>
         <PressableIcon
           name="delete"
