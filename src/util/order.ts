@@ -43,6 +43,7 @@ export async function fetchUserOrders(loggedInUserId: string) {
       ) {
         transformedData.push({
           orderId: key,
+          userId: responseData[key].userData.userId,
           orders: responseData[key].cart.map((item: any) => {
             return {
               title: `${item.title} - ${item.addition}`,
@@ -53,7 +54,27 @@ export async function fetchUserOrders(loggedInUserId: string) {
       }
     }
 
-    return transformedData;
+    return transformedData.reverse();
+  } catch (error: any) {
+    Alert.alert(error.message);
+  }
+}
+
+export async function deleteMyOrders(orderIds: string[]) {
+  try {
+    const deletePromises = orderIds.map(async (orderId: string) => {
+      const response = await fetch(`${FIREBASE_URL}/order/${orderId}.json`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to clear orders, please try again later!");
+      }
+
+      await response.json();
+    });
+
+    await Promise.all(deletePromises);
   } catch (error: any) {
     Alert.alert(error.message);
   }

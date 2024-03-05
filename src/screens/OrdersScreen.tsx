@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import { Colors } from "../constants/colors";
-import { fetchUserOrders } from "../util/order";
+import { fetchUserOrders, deleteMyOrders } from "../util/order";
+import PressableIcon from "../components/ui/PressableIcon";
 
 const OrdersScreen = () => {
   const [userOrders, setUserOrders] = useState<any>();
@@ -24,6 +25,18 @@ const OrdersScreen = () => {
         0,
       );
     return totalPrice.toFixed(2);
+  };
+
+  const clearMyOrdersHandler = async () => {
+    const orderIds = [];
+
+    for (const userOrder of userOrders) {
+      if (userOrder.userId.toString() === user.users[0].localId.toString()) {
+        orderIds.push(userOrder.orderId);
+      }
+    }
+
+    await deleteMyOrders(orderIds);
   };
 
   let orderContent = (
@@ -67,6 +80,13 @@ const OrdersScreen = () => {
       {userOrders && (
         <Text style={styles.total}>Total: ${calculateTotalPrice()}</Text>
       )}
+      <View style={styles.clearOrdersBtn}>
+        <PressableIcon
+          name="delete"
+          onPress={clearMyOrdersHandler}
+          config={{ tintColor: "red" }}
+        />
+      </View>
     </ScrollView>
   );
 };
@@ -75,12 +95,12 @@ export default OrdersScreen;
 
 const styles = StyleSheet.create({
   fallbackContainer: {
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   fallbackText: {
     color: "white",
     textAlign: "center",
-    fontSize: 16
+    fontSize: 16,
   },
   container: {
     backgroundColor: Colors.screenBg,
@@ -119,5 +139,9 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginHorizontal: 40,
     fontSize: 20,
+  },
+  clearOrdersBtn: {
+    alignSelf: "center",
+    marginTop: 20,
   },
 });
