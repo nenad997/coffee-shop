@@ -9,6 +9,7 @@ import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import CartScreen from "./src/screens/CartScreen";
+import OrdersScreen from "./src/screens/OrdersScreen";
 import FavoritesScreen from "./src/screens/FavoritesScreen";
 import CoffeeDetailsScreen from "./src/screens/CoffeeDetails";
 import ProfileScreen from "./src/screens/ProfileScreen";
@@ -48,6 +49,15 @@ const BottomtabNavigation = () => {
         component={CartScreen}
         options={{
           tabBarIcon: ({ focused }) => <Icon name="cart" isFocused={focused} />,
+        }}
+      />
+      <Bottomtab.Screen
+        name="Orders"
+        component={OrdersScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Icon name="orders" isFocused={focused} />
+          ),
         }}
       />
       <Bottomtab.Screen

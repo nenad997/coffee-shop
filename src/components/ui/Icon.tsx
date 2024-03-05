@@ -16,6 +16,7 @@ const iconPaths: any = {
   delete: require("../../assets/icon-img/delete.png"),
   add: require("../../assets/icon-img/add.png"),
   minus: require("../../assets/icon-img/minus.png"),
+  orders: require("../../assets/icon-img/orders.png"),
 };
 
 const Icon: FC<IconProps> = ({
@@ -48,10 +49,6 @@ const Icon: FC<IconProps> = ({
 export default Icon;
 
 const styles = StyleSheet.create({
-  // imageContainer: {
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
   image: {
     justifyContent: "center",
     alignItems: "center",

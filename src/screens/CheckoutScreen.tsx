@@ -27,6 +27,7 @@ const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
               emailAddress: userCredentials.users[0].email,
               userName: userCredentials.users[0].email.split("@")[0],
               userAddress: "New York City, 5th Avenue, Manhattan",
+              userId: userCredentials.users[0].localId,
             },
             orderDate: {
               date: new Date().toISOString().split("T")[0],

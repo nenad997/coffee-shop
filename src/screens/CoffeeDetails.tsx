@@ -37,7 +37,7 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
     );
   };
 
-  const confirmPurchaseHandler = (coffee: Coffee) => {
+  const confirmPurchaseHandler = () => {
     Alert.alert("Purchase successful", "Proceed", [
       {
         text: "Continue",
@@ -48,9 +48,10 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
             coffee: selectedCoffee,
             price: selectedCoffee.price,
             userData: {
-              emailAddress: userCredentials && userCredentials.users[0].email,
+              emailAddress: userCredentials.users[0].email,
               userName: userCredentials.users[0].email.split("@")[0],
               userAddress: "New York City, 5th Avenue, Manhattan",
+              userId: userCredentials.users[0].localId,
             },
             orderDate: {
               date: new Date().toISOString().split("T")[0],
@@ -142,10 +143,7 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
             $ <Text style={styles.text}>{selectedCoffee.price.toFixed(2)}</Text>
           </Text>
         </View>
-        <Button
-          style={styles.button}
-          onPress={confirmPurchaseHandler.bind(this, selectedCoffee)}
-        >
+        <Button style={styles.button} onPress={confirmPurchaseHandler}>
           Buy Now
         </Button>
       </View>
