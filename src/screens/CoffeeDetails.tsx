@@ -16,6 +16,7 @@ import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
 import { updateCoffeAction } from "../store/actions/coffee-actions";
 import { coffeeSliceActions } from "../store/slices/coffee-slice";
+import { createOrder } from "../util/authentication/order";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();
@@ -41,9 +42,8 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
     Alert.alert("Purchase successful", "Proceed", [
       {
         text: "Continue",
-        onPress: () => {
+        onPress: async () => {
           dispatch(coffeeSliceActions.clearCart());
-          console.log("Your order");
           const orderData = {
             coffee: selectedCoffee,
             price: selectedCoffee.price,
@@ -58,7 +58,7 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
               time: new Date().toISOString().split("T")[1].slice(0, 8),
             },
           };
-          console.log(orderData);
+          await createOrder(orderData);
           navigation.navigate("BottomTabs");
         },
       },

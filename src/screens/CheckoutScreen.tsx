@@ -5,6 +5,7 @@ import { View, StyleSheet, Text, Alert } from "react-native";
 import Button from "../components/ui/Button";
 import { coffeeSliceActions } from "../store/slices/coffee-slice";
 import { ScreenParamList } from "../util/types";
+import { createOrder } from "../util/authentication/order";
 
 const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
   const { totalAmount, cart } = useSelector((state: any) => state.coffee);
@@ -17,9 +18,8 @@ const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
     Alert.alert("Purchase successful", "Proceed", [
       {
         text: "Continue",
-        onPress: () => {
+        onPress: async () => {
           dispatch(coffeeSliceActions.clearCart());
-          console.log("Your order");
           const orderData = {
             cart,
             totalAmount,
@@ -34,7 +34,7 @@ const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
               time: new Date().toISOString().split("T")[1].slice(0, 8),
             },
           };
-          console.log(orderData);
+          await createOrder(orderData);
           navigation.navigate("BottomTabs");
         },
       },
