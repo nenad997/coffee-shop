@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import { Colors } from "../constants/colors";
+import { fetchUserOrders } from "../util/order";
 
 const OrdersScreen = () => {
+  const user = useSelector((state: any) => state.auth.userCredentials);
+
+  useEffect(() => {
+    async function getUserOrders() {
+      const orders = await fetchUserOrders(user.users[0].localId);
+      console.log("From orders screen");
+      console.log(orders);
+    }
+    getUserOrders();
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.header}>My Orders</Text>

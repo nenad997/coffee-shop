@@ -16,7 +16,7 @@ import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
 import { updateCoffeAction } from "../store/actions/coffee-actions";
 import { coffeeSliceActions } from "../store/slices/coffee-slice";
-import { createOrder } from "../util/authentication/order";
+import { createOrder } from "../util/order";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();

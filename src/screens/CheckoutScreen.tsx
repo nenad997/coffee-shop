@@ -5,7 +5,7 @@ import { View, StyleSheet, Text, Alert } from "react-native";
 import Button from "../components/ui/Button";
 import { coffeeSliceActions } from "../store/slices/coffee-slice";
 import { ScreenParamList } from "../util/types";
-import { createOrder } from "../util/authentication/order";
+import { createOrder } from "../util/order";
 
 const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
   const { totalAmount, cart } = useSelector((state: any) => state.coffee);
