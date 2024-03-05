@@ -7,7 +7,7 @@ import { fetchUserOrders, deleteMyOrders } from "../util/order";
 import PressableIcon from "../components/ui/PressableIcon";
 
 const OrdersScreen = () => {
-  const [userOrders, setUserOrders] = useState<any>();
+  const [userOrders, setUserOrders] = useState<any>([]);
   const user = useSelector((state: any) => state.auth.userCredentials);
 
   const calculateOrderTotal = (order: any) => {
