@@ -7,7 +7,7 @@ const uiSlice = createSlice({
     error: null,
   },
   reducers: {
-    setIsLoading: (state, action) => {
+    setIsLoading: (state, action: { payload: boolean }) => {
       state.isLoading = action.payload;
     },
     setError: (state, action) => {

@@ -1,20 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { Coffee, CartItemProps } from "../../util/types";
+import { Coffee, CartItemProps, CoffeeState } from "../../util/types";
 
-const initialState: {
-  coffees: Coffee[];
-  filter: string;
-  cart: CartItemProps[];
-  totalAmount: number;
-  qty: number;
-  filteredCoffees: Coffee[];
-} = {
+const initialState: CoffeeState = {
   coffees: [],
-  filter: "Cappuccino",
   cart: [],
   totalAmount: 0,
-  qty: 0,
   filteredCoffees: [],
 };
 
@@ -22,20 +13,17 @@ const coffeeSlice = createSlice({
   name: "coffee",
   initialState,
   reducers: {
-    replaceState: (state, action) => {
+    replaceState: (state, action: { payload: Coffee[] }) => {
       state.coffees = action.payload;
     },
-    updateFilter: (state, action) => {
-      state.filter = action.payload;
-    },
-    filterCoffees: (state, action) => {
+    filterCoffees: (state, action: { payload: string }) => {
       const searchTerm = action.payload.toLowerCase();
-      const filteredCoffees = state.coffees.filter(coffee =>
+      const filteredCoffees = state.coffees.filter((coffee: Coffee) =>
         coffee.title.toLowerCase().includes(searchTerm),
       );
       state.filteredCoffees = filteredCoffees;
     },
-    toggleFavorite: (state, action) => {
+    toggleFavorite: (state, action: { payload: string }) => {
       const updatedCoffees: Coffee[] = state.coffees.map((coffee: Coffee) => {
         if (coffee.id === action.payload) {
           return {
@@ -49,10 +37,10 @@ const coffeeSlice = createSlice({
 
       state.coffees = updatedCoffees;
     },
-    addToCart: (state, action) => {
-      const newCartItem: CartItemProps = action.payload;
+    addToCart: (state, action: { payload: CartItemProps }) => {
+      const newCartItem = action.payload;
 
-      const existingCartItemIndex = state.cart.findIndex(
+      const existingCartItemIndex: number = state.cart.findIndex(
         (item: CartItemProps) => item.id === newCartItem.id,
       );
 
@@ -65,20 +53,17 @@ const coffeeSlice = createSlice({
           totalPrice: newCartItem.price,
         });
       } else {
-        const newQty = existingCartItem.qty + 1;
-        const totalPrice = existingCartItem.totalPrice + existingCartItem.price;
-
         const newCartItem: CartItemProps = {
           ...existingCartItem,
-          qty: newQty,
-          totalPrice,
+          qty: existingCartItem.qty + 1,
+          totalPrice: existingCartItem.totalPrice + existingCartItem.price,
         };
 
         state.cart[existingCartItemIndex] = newCartItem;
       }
       state.totalAmount += newCartItem.price;
     },
-    removeFromCart: (state, action) => {
+    removeFromCart: (state, action: { payload: string }) => {
       const existingCartItemIndex: number = state.cart.findIndex(
         (item: CartItemProps) => item.id === action.payload,
       )!;

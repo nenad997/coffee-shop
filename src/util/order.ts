@@ -1,8 +1,9 @@
 import { Alert } from "react-native";
 
 import { FIREBASE_URL } from "../../variables";
+import { Order, UserOrders, CartItemProps } from "./types";
 
-export async function createOrder(data: any) {
+export async function createOrder(data: Order) {
   const response = await fetch(`${FIREBASE_URL}/order.json`, {
     method: "POST",
     headers: {
@@ -25,7 +26,7 @@ export async function createOrder(data: any) {
 export async function fetchUserOrders(loggedInUserId: string) {
   const response = await fetch(`${FIREBASE_URL}/order.json`);
 
-  const transformedData = [];
+  const transformedData: UserOrders[] = [];
 
   try {
     if (!response.ok) {
@@ -44,10 +45,10 @@ export async function fetchUserOrders(loggedInUserId: string) {
         transformedData.push({
           orderId: key,
           userId: responseData[key].userData.userId,
-          orders: responseData[key].cart.map((item: any) => {
+          orders: responseData[key].cart.map((item: CartItemProps) => {
             return {
               title: `${item.title} - ${item.addition}`,
-              price: +item.price,
+              price: +item.totalPrice,
             };
           }),
         });

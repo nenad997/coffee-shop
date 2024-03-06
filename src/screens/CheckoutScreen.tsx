@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, Alert } from "react-native";
 
 import Button from "../components/ui/Button";
 import { coffeeSliceActions } from "../store/slices/coffee-slice";
-import { ScreenParamList } from "../util/types";
+import { ScreenParamList, Order } from "../util/types";
 import { createOrder } from "../util/order";
 
 const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
@@ -19,13 +19,12 @@ const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
       {
         text: "Cancel",
         style: "cancel",
-        onPress: () => navigation.navigate("BottomTabs"),
       },
       {
         text: "Continue",
         onPress: async () => {
           dispatch(coffeeSliceActions.clearCart());
-          const orderData = {
+          const orderData: Order = {
             cart,
             totalAmount,
             userData: {

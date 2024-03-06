@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 
-import { Coffee, ScreenParamList } from "../util/types";
+import { Coffee, ScreenParamList, Order } from "../util/types";
 import { Colors } from "../constants/colors";
 import Icon from "../components/ui/Icon";
 import PressableIcon from "../components/ui/PressableIcon";
@@ -20,7 +20,9 @@ import { createOrder } from "../util/order";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();
-  const coffees = useSelector((state: any) => state.coffee.coffees);
+  const { coffees, totalAmount } = useSelector(
+    (state: any) => state.coffee,
+  );
   const userCredentials = useSelector(
     (state: any) => state.auth.userCredentials,
   );
@@ -43,15 +45,14 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
       {
         text: "Cancel",
         style: "cancel",
-        onPress: () => navigation.navigate("BottomTabs")
       },
       {
         text: "Continue",
         onPress: async () => {
           dispatch(coffeeSliceActions.clearCart());
-          const orderData = {
+          const orderData: Order = {
             cart: [{ ...selectedCoffee }],
-            price: selectedCoffee.price,
+            totalAmount,
             userData: {
               emailAddress: userCredentials.users[0].email,
               userName: userCredentials.users[0].email.split("@")[0],

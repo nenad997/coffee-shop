@@ -10,7 +10,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    authenticate: (state, action) => {
+    authenticate: (state, action: { payload: string }) => {
       state.authToken = action.payload;
       state.isAuth = true;
     },

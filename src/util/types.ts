@@ -74,3 +74,39 @@ export type CartItemProps = {
   qty: number;
   totalPrice: number;
 };
+
+export interface Order {
+  cart: Coffee[];
+  totalAmount: string | number;
+  userData: {
+    emailAddress: string;
+    userName: string;
+    userAddress: string;
+    userId: string;
+  };
+  orderDate: {
+    date: string;
+    time: string;
+  };
+}
+
+export interface UserOrders {
+  orderId: string;
+  userId: string;
+  orders: {
+    title: string;
+    price: number | string;
+  }[];
+}
+
+export type OrderItem = {
+  title: string;
+  price: string | number;
+};
+
+export type CoffeeState = {
+  coffees: Coffee[];
+  cart: CartItemProps[];
+  totalAmount: number;
+  filteredCoffees: Coffee[];
+};

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
@@ -8,14 +8,15 @@ import {
   fetchOrdersAction,
   deleteMyOrdersAction,
 } from "../store/actions/orders-actions";
+import { ScreenParamList, UserOrders, OrderItem } from "../util/types";
 
-const OrdersScreen = () => {
+const OrdersScreen: FC<ScreenParamList> = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.auth.userCredentials);
   const { userOrders, orderTotal } = useSelector((state: any) => state.order);
 
   const clearMyOrdersHandler = () => {
-    const orderIds = [];
+    const orderIds: string[] = [];
 
     for (const userOrder of userOrders) {
       if (userOrder.userId.toString() === user.users[0].localId.toString()) {
@@ -37,14 +38,18 @@ const OrdersScreen = () => {
   if (userOrders && userOrders.length > 0) {
     orderContent = (
       <View style={styles.ordersList}>
-        {userOrders.map((usOrder: any) => {
-          return usOrder.orders.map((orderItem: any) => (
+        {userOrders.map((usOrder: UserOrders) => {
+          return usOrder.orders.map((orderItem: OrderItem, index: number) => (
             <View
               style={styles.orderItem}
-              key={usOrder.orderId + Math.random().toString()}
+              key={index}
             >
               <Text style={styles.text}>{orderItem.title}</Text>
-              <Text style={styles.text}>${orderItem.price.toFixed(2)}</Text>
+              <Text style={styles.text}>
+                $
+                {typeof orderItem.price === "number" &&
+                  orderItem.price.toFixed(2)}
+              </Text>
             </View>
           ));
         })}
@@ -60,7 +65,9 @@ const OrdersScreen = () => {
     <ScrollView style={styles.container}>
       <Text style={styles.header}>My Orders</Text>
       {orderContent}
-      {userOrders && <Text style={styles.total}>Total: ${orderTotal}</Text>}
+      {userOrders && (
+        <Text style={styles.total}>Total: ${orderTotal.toFixed(2)}</Text>
+      )}
       {userOrders && userOrders.length > 0 && (
         <View style={styles.clearOrdersBtn}>
           <PressableIcon
