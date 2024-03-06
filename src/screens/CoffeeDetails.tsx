@@ -6,26 +6,19 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView,
-  Alert,
 } from "react-native";
 
-import { Coffee, ScreenParamList, Order } from "../util/types";
+import { Coffee, ScreenParamList } from "../util/types";
 import { Colors } from "../constants/colors";
 import Icon from "../components/ui/Icon";
 import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
 import { updateCoffeAction } from "../store/actions/coffee-actions";
 import { coffeeSliceActions } from "../store/slices/coffee-slice";
-import { createOrder } from "../util/order";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();
-  const { coffees, totalAmount } = useSelector(
-    (state: any) => state.coffee,
-  );
-  const userCredentials = useSelector(
-    (state: any) => state.auth.userCredentials,
-  );
+  const { coffees } = useSelector((state: any) => state.coffee);
 
   const selectedCoffee: Coffee = coffees.find(
     (coffee: Coffee) => coffee.id === route.params!.id,
@@ -41,34 +34,7 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   };
 
   const confirmPurchaseHandler = () => {
-    Alert.alert("Purchase successful", "Proceed", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Continue",
-        onPress: async () => {
-          dispatch(coffeeSliceActions.clearCart());
-          const orderData: Order = {
-            cart: [{ ...selectedCoffee }],
-            totalAmount,
-            userData: {
-              emailAddress: userCredentials.users[0].email,
-              userName: userCredentials.users[0].email.split("@")[0],
-              userAddress: "New York City, 5th Avenue, Manhattan",
-              userId: userCredentials.users[0].localId,
-            },
-            orderDate: {
-              date: new Date().toISOString().split("T")[0],
-              time: new Date().toISOString().split("T")[1].slice(0, 8),
-            },
-          };
-          await createOrder(orderData);
-          navigation.navigate("BottomTabs");
-        },
-      },
-    ]);
+    dispatch(coffeeSliceActions.addToCart(selectedCoffee));
   };
 
   useLayoutEffect(() => {

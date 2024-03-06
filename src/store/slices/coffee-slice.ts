@@ -37,7 +37,7 @@ const coffeeSlice = createSlice({
 
       state.coffees = updatedCoffees;
     },
-    addToCart: (state, action: { payload: CartItemProps }) => {
+    addToCart: (state, action: { payload: any }) => {
       const newCartItem = action.payload;
 
       const existingCartItemIndex: number = state.cart.findIndex(

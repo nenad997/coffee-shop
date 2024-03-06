@@ -6,6 +6,7 @@ import Button from "../components/ui/Button";
 import { coffeeSliceActions } from "../store/slices/coffee-slice";
 import { ScreenParamList, Order } from "../util/types";
 import { createOrder } from "../util/order";
+import { Colors } from "../constants/colors";
 
 const CheckOutScreen: React.FC<ScreenParamList> = ({ navigation }) => {
   const { totalAmount, cart } = useSelector((state: any) => state.coffee);
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     gap: 25,
-    backgroundColor: "#764D0A",
+    backgroundColor: Colors.screenBg,
     paddingVertical: 22,
   },
   total: {
