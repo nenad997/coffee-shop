@@ -13,7 +13,10 @@ const FavoritesList: FC<{
 
   const unfavoriteCoffeeHandler = (id: string, coffee: Coffee) => {
     dispatch<any>(
-      updateCoffeAction(id, { ...coffee, isFavorite: !coffee.isFavorite }),
+      updateCoffeAction(
+        id,
+        { ...coffee, isFavorite: !coffee.isFavorite },
+      ),
     );
   };
 

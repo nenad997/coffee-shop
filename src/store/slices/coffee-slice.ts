@@ -7,6 +7,7 @@ const initialState: CoffeeState = {
   cart: [],
   totalAmount: 0,
   filteredCoffees: [],
+  favoriteCoffees: [],
 };
 
 const coffeeSlice = createSlice({
@@ -19,7 +20,7 @@ const coffeeSlice = createSlice({
     filterCoffees: (state, action: { payload: string }) => {
       const searchTerm = action.payload.toLowerCase();
       const filteredCoffees = state.coffees.filter((coffee: Coffee) =>
-        coffee.title.toLowerCase().includes(searchTerm),
+        coffee.title?.toLowerCase().includes(searchTerm),
       );
       state.filteredCoffees = filteredCoffees;
     },
@@ -95,6 +96,9 @@ const coffeeSlice = createSlice({
     clearCart: (state, action: { payload?: any }) => {
       state.cart = [];
       state.totalAmount = 0;
+    },
+    getFavoriteCoffees: (state, action) => {
+      state.favoriteCoffees = action.payload;
     },
   },
 });

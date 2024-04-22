@@ -15,10 +15,6 @@ const FilterForm: FC = () => {
     dispatch(coffeeSliceActions.filterCoffees(filter));
   };
 
-  useEffect(() => {
-    dispatch(coffeeSliceActions.filterCoffees("Cappuccino"));
-  }, [dispatch]);
-
   return (
     <FlatList
       style={styles.form}

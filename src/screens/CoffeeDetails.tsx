@@ -13,12 +13,16 @@ import { Colors } from "../constants/colors";
 import Icon from "../components/ui/Icon";
 import PressableIcon from "../components/ui/PressableIcon";
 import Button from "../components/ui/Button";
-import { updateCoffeAction } from "../store/actions/coffee-actions";
+import {
+  updateCoffeAction,
+  setFavotiteCoffeesAction,
+} from "../store/actions/coffee-actions";
 import { coffeeSliceActions } from "../store/slices/coffee-slice";
 
 const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const { coffees } = useSelector((state: any) => state.coffee);
+  const user = useSelector((state: any) => state.auth.userCredentials);
 
   const selectedCoffee: Coffee = coffees.find(
     (coffee: Coffee) => coffee.id === route.params!.id,
@@ -26,10 +30,13 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
 
   const toggleIsFavoriteHandler = (id: string) => {
     dispatch<any>(
-      updateCoffeAction(id, {
-        ...selectedCoffee,
-        isFavorite: !selectedCoffee.isFavorite,
-      }),
+      updateCoffeAction(
+        id,
+        {
+          ...selectedCoffee,
+          isFavorite: !selectedCoffee.isFavorite,
+        },
+      ),
     );
   };
 
@@ -112,7 +119,7 @@ const CoffeeDetailsScreen: FC<ScreenParamList> = ({ route, navigation }) => {
               { alignItems: "center", justifyContent: "center" },
             ]}
           >
-            $ <Text style={styles.text}>{selectedCoffee.price.toFixed(2)}</Text>
+            $ <Text style={styles.text}>{selectedCoffee.price?.toFixed(2)}</Text>
           </Text>
         </View>
         <Button style={styles.button} onPress={confirmPurchaseHandler}>

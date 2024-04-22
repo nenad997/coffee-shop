@@ -8,6 +8,7 @@ import LoadingIndicator from "../components/ui/LoadingIndicator";
 import ErrorIndicator from "../components/ui/ErrorIndicator";
 import { Colors } from "../constants/colors";
 import { getCoffees } from "../store/actions/coffee-actions";
+import { coffeeSliceActions } from "../store/slices/coffee-slice";
 
 const HomeScreen: FC<ScreenParamList> = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,11 @@ const HomeScreen: FC<ScreenParamList> = () => {
 
   useEffect(() => {
     dispatch<any>(getCoffees());
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(coffeeSliceActions.filterCoffees("Cappuccino"));
+  }, [dispatch]);
 
   if (isLoading && !error) {
     return <LoadingIndicator />;

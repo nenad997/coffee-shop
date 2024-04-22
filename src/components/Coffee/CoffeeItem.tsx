@@ -56,7 +56,7 @@ const CoffeeItem: FC<CoffeeProps> = ({ item }) => {
         <Text style={styles.addition}>{item.addition}</Text>
         <View style={styles.actions}>
           <Text style={styles.price}>
-            <Text style={styles.icon}>$</Text> {item.price.toFixed(2)}
+            <Text style={styles.icon}>$</Text> {item.price?.toFixed(2)}
           </Text>
           <View style={styles.addToCartButton}>
             <PressableIcon name="plus" onPress={addCoffeeToCartHandler} />

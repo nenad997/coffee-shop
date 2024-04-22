@@ -22,6 +22,8 @@ import {
   fetchUserDataAction,
   logoutAction,
 } from "./src/store/actions/auth-actions";
+import { getCoffees } from "./src/store/actions/coffee-actions";
+import { coffeeSliceActions } from "./src/store/slices/coffee-slice";
 
 const Stack = createNativeStackNavigator();
 const Bottomtab = createBottomTabNavigator();

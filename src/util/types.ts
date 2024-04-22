@@ -109,4 +109,5 @@ export type CoffeeState = {
   cart: CartItemProps[];
   totalAmount: number;
   filteredCoffees: Coffee[];
+  favoriteCoffees: Coffee[];
 };
